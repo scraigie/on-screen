@@ -5,37 +5,44 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import uk.co.scraigie.core.framework.*
+import io.reactivex.Observable
+import io.reactivex.ObservableTransformer
 import uk.co.scraigie.onscreen.core.framework.*
-import java.lang.Exception
-
-interface MoviesHomeView : IView
+interface MoviesHomeView : IView<MoviesHomeIntents, MoviesHomeState>
 
 class MoviesHomeFragment: Fragment(), MoviesHomeView {
+    override val intentObservable: Observable<MoviesHomeIntents>
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+
+    override fun render(state: MoviesHomeState) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_home, container, false)
 }
 
 class MoviesHomePresenter: BasePresenter<MoviesHomeView, MoviesHomeState, MoviesHomeIntents, MoviesHomeActions, MoviesHomeResult>(){
+    override val initialState: MoviesHomeState
+        get() = MoviesHomeState()
 
-    override fun <I : MoviesHomeIntents> intentActionResolver(intent: I): MoviesHomeActions =
+    override val actionProcessor =  MviActionsProcessor<MoviesHomeActions, MoviesHomeResult> { listOf(
+            it.addProcessor(someProcessor)
+    ) }
+
+    private val someProcessor = ObservableTransformer<MoviesHomeActions, MoviesHomeResult> {
+        it.map { MoviesHomeResult.LoadHomeResult() }
+    }
+
+    override fun intentActionResolver(intent: MoviesHomeIntents): MoviesHomeActions =
         when (intent) {
             is MoviesHomeIntents.InitialIntent -> MoviesHomeActions.LoadHomeAction()
             is MoviesHomeIntents.RefreshIntent -> MoviesHomeActions.LoadHomeAction()
-            else -> throw Exception()
         }
 
     override val reducer = MviReducer<MoviesHomeState, MoviesHomeResult> {
             initialState, result -> initialState
     }
-
-    override fun onAttach(view: MoviesHomeView) {
-
-    }
-
-    override fun onDetach() {
-    }
-
 }
 
 sealed class MoviesHomeIntents : MviIntent {
@@ -48,10 +55,9 @@ sealed class MoviesHomeActions : MviAction {
 }
 
 sealed class MoviesHomeResult: MviResult {
-    sealed class LoadHomeResult : MoviesHomeResult() {
-        class Success : LoadHomeResult()
-        class Failure : LoadHomeResult()
-    }
+    class LoadHomeResult : MoviesHomeResult()
 }
+
+
 
 data class MoviesHomeState(val property: Boolean = true) : MviState
