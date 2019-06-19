@@ -20,23 +20,11 @@ class MviReducer<S : MviState, R : MviResult>(val reducer: (previousState: S, re
     }
 }
 
-class MviActionsProcessor <A: MviAction, R: MviResult> constructor(val actionProcessors: (combinedActionObservable: Observable<A>) -> List<Observable<R>>) : ObservableTransformer<A,R> {
-    override fun apply(actions: Observable<A>): ObservableSource<R> {
-        return actions.publish {
-            Observable.merge(actionProcessors(it))
-        }
-    }
-}
-
-inline fun <reified A: MviAction, R: MviResult> Observable<in A>.addProcessor(processor: ObservableTransformer<A,R>): Observable<R> {
-    return ofType(A::class.java).compose(processor)
-}
-
-
 interface IPresenter<in V : IView<I,S>, S: MviState, I: MviIntent, A: MviAction, R: MviResult> {
     val initialState: S
-    val actionProcessor: MviActionsProcessor<A,R>
     val reducer: MviReducer<S,R>
+    val actionsProcessor: BasePresenter<V,S,I,A,R>.ActionsProcessor
+
     fun intentActionResolver(intent: I): A
     fun onAttach(view: V)
     fun onDetach()
@@ -45,11 +33,11 @@ interface IPresenter<in V : IView<I,S>, S: MviState, I: MviIntent, A: MviAction,
 abstract class BasePresenter<in V: IView<I,S>, S: MviState, I: MviIntent, A: MviAction, R: MviResult> : IPresenter<V, S, I, A, R> {
     private var disposables = CompositeDisposable()
 
-    protected fun <T> Observable<T>.subscribeUntilDetached(onSuccess: (T) -> Unit, onError: (Throwable) -> Unit = {}) {
+    private fun <T> Observable<T>.subscribeUntilDetached(onSuccess: (T) -> Unit, onError: (Throwable) -> Unit = {}) {
         disposables.add(subscribe(onSuccess,onError))
     }
 
-    protected fun <T> Observable<T>.subscribeUntilDetached(onSuccess: (T) -> Unit) {
+    private fun <T> Observable<T>.subscribeUntilDetached(onSuccess: (T) -> Unit) {
         subscribeUntilDetached(onSuccess, {})
     }
 
@@ -60,11 +48,29 @@ abstract class BasePresenter<in V: IView<I,S>, S: MviState, I: MviIntent, A: Mvi
     override fun onAttach(view: V) {
         view.intentObservable
             .map(this::intentActionResolver)
-            .compose(actionProcessor)
+            .compose(actionsProcessor)
             .scan(initialState, reducer)
             .subscribeUntilDetached {
                 view.render(it)
             }
+    }
+
+    inner class ActionsProcessor(val processorsProvider: (Observable<A>) -> List<Observable<R>>) : ObservableTransformer<A,R> {
+        override fun apply(upstream: Observable<A>): ObservableSource<R> {
+            return upstream.publish { combined ->
+                Observable.merge(processorsProvider(combined))
+            }
+        }
+    }
+
+    protected inline fun <reified AR: A> Observable<A>.addProcessor(processor: Processor): Observable<R> {
+        return ofType(AR::class.java).compose(processor)
+    }
+
+    inner class Processor(val func: (obs: Observable<A>) -> Observable<R>) : ObservableTransformer<A,R> {
+        override fun apply(upstream: Observable<A>): ObservableSource<R> {
+            return func(upstream)
+        }
     }
 }
 

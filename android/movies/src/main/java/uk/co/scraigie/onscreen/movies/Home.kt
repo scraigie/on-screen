@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import io.reactivex.Observable
-import io.reactivex.ObservableTransformer
 import uk.co.scraigie.onscreen.core.framework.*
 interface MoviesHomeView : IView<MoviesHomeIntents, MoviesHomeState>
 
 class MoviesHomeFragment: Fragment(), MoviesHomeView {
+
     override val intentObservable: Observable<MoviesHomeIntents>
         get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 
@@ -22,17 +22,16 @@ class MoviesHomeFragment: Fragment(), MoviesHomeView {
             inflater.inflate(R.layout.fragment_home, container, false)
 }
 
-class MoviesHomePresenter: BasePresenter<MoviesHomeView, MoviesHomeState, MoviesHomeIntents, MoviesHomeActions, MoviesHomeResult>(){
+class MoviesHomePresenter: BasePresenter<MoviesHomeView, MoviesHomeState, MoviesHomeIntents, MoviesHomeActions, MoviesHomeResult>() {
+    override val actionsProcessor = ActionsProcessor {
+            listOf(
+                it.addProcessor<MoviesHomeActions.LoadHomeAction>(loadHomeProcessor),
+                it.addProcessor<MoviesHomeActions.RefreshAction>(refreshProcessor)
+            )
+        }
+
     override val initialState: MoviesHomeState
         get() = MoviesHomeState()
-
-    override val actionProcessor =  MviActionsProcessor<MoviesHomeActions, MoviesHomeResult> { listOf(
-            it.addProcessor(someProcessor)
-    ) }
-
-    private val someProcessor = ObservableTransformer<MoviesHomeActions, MoviesHomeResult> {
-        it.map { MoviesHomeResult.LoadHomeResult() }
-    }
 
     override fun intentActionResolver(intent: MoviesHomeIntents): MoviesHomeActions =
         when (intent) {
@@ -41,7 +40,15 @@ class MoviesHomePresenter: BasePresenter<MoviesHomeView, MoviesHomeState, Movies
         }
 
     override val reducer = MviReducer<MoviesHomeState, MoviesHomeResult> {
-            initialState, result -> initialState
+            previousState, result -> initialState.copy(property = true)
+    }
+
+    private val loadHomeProcessor = Processor {
+        it.map { MoviesHomeResult.LoadHomeResult() }
+    }
+
+    private val refreshProcessor = Processor {
+        it.map { MoviesHomeResult.RefreshResult() }
     }
 }
 
@@ -52,10 +59,12 @@ sealed class MoviesHomeIntents : MviIntent {
 
 sealed class MoviesHomeActions : MviAction {
     class LoadHomeAction: MoviesHomeActions()
+    class RefreshAction: MoviesHomeActions()
 }
 
 sealed class MoviesHomeResult: MviResult {
     class LoadHomeResult : MoviesHomeResult()
+    class RefreshResult: MoviesHomeResult()
 }
 
 
