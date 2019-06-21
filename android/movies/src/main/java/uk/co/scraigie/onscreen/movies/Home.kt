@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import io.reactivex.Observable
 import uk.co.scraigie.onscreen.core.framework.*
+
 interface MoviesHomeView : IView<MoviesHomeIntents, MoviesHomeState>
 
 class MoviesHomeFragment: Fragment(), MoviesHomeView {
@@ -23,7 +24,15 @@ class MoviesHomeFragment: Fragment(), MoviesHomeView {
 }
 
 class MoviesHomePresenter: BasePresenter<MoviesHomeView, MoviesHomeState, MoviesHomeIntents, MoviesHomeActions, MoviesHomeResult>() {
-    override val actionsProcessor = ActionsProcessor {
+
+    override val intentActionResolver = IntentActionResolver<MoviesHomeIntents, MoviesHomeActions> {
+        when(it)  {
+            is MoviesHomeIntents.InitialIntent -> MoviesHomeActions.LoadHomeAction
+            is MoviesHomeIntents.RefreshIntent -> MoviesHomeActions.LoadHomeAction
+        }
+    }
+
+    override val actionsProcessor = ActionsProcessor<MoviesHomeActions, MoviesHomeResult> {
             listOf(
                 it.addProcessor<MoviesHomeActions.LoadHomeAction>(loadHomeProcessor),
                 it.addProcessor<MoviesHomeActions.RefreshAction>(refreshProcessor)
@@ -33,38 +42,32 @@ class MoviesHomePresenter: BasePresenter<MoviesHomeView, MoviesHomeState, Movies
     override val initialState: MoviesHomeState
         get() = MoviesHomeState()
 
-    override fun intentActionResolver(intent: MoviesHomeIntents): MoviesHomeActions =
-        when (intent) {
-            is MoviesHomeIntents.InitialIntent -> MoviesHomeActions.LoadHomeAction()
-            is MoviesHomeIntents.RefreshIntent -> MoviesHomeActions.LoadHomeAction()
-        }
-
     override val reducer = MviReducer<MoviesHomeState, MoviesHomeResult> {
             previousState, result -> initialState.copy(property = true)
     }
 
     private val loadHomeProcessor = Processor {
-        it.map { MoviesHomeResult.LoadHomeResult() }
+        it.map { MoviesHomeResult.LoadHomeResult }
     }
 
     private val refreshProcessor = Processor {
-        it.map { MoviesHomeResult.RefreshResult() }
+        it.map { MoviesHomeResult.RefreshResult }
     }
 }
 
 sealed class MoviesHomeIntents : MviIntent {
-    class InitialIntent : MoviesHomeIntents()
-    class RefreshIntent : MoviesHomeIntents()
+    object InitialIntent : MoviesHomeIntents()
+    object RefreshIntent : MoviesHomeIntents()
 }
 
 sealed class MoviesHomeActions : MviAction {
-    class LoadHomeAction: MoviesHomeActions()
-    class RefreshAction: MoviesHomeActions()
+    object LoadHomeAction: MoviesHomeActions()
+    object RefreshAction: MoviesHomeActions()
 }
 
 sealed class MoviesHomeResult: MviResult {
-    class LoadHomeResult : MoviesHomeResult()
-    class RefreshResult: MoviesHomeResult()
+    object LoadHomeResult : MoviesHomeResult()
+    object RefreshResult: MoviesHomeResult()
 }
 
 
