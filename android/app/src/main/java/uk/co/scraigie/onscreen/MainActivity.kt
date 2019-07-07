@@ -1,8 +1,8 @@
 package uk.co.scraigie.onscreen
 
 import android.os.Bundle
+import co.uk.scraigie.onscreen.tv.TvHomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import uk.co.scraigie.onscreen.movies.MoviesHomeFragment
 
@@ -12,20 +12,28 @@ class MainActivity : BaseActivity() {
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, MoviesHomeFragment())
+                        .addToBackStack(null)
+                        .commit()
                     title = getString(R.string.title_home)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_movies -> {
                     supportFragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, MoviesHomeFragment())
+                        .replace(R.id.fragment_container, MoviesHomeFragment())
                         .addToBackStack(null)
                         .commit()
 
-                    title = getString(R.string.title_dashboard)
+                    title = getString(R.string.title_movies)
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.navigation_tv -> {
-                    title = getString(R.string.title_notifications)
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, TvHomeFragment())
+                        .addToBackStack(null)
+                        .commit()
+                    title = getString(R.string.title_tv)
                     return@OnNavigationItemSelectedListener true
                 }
             }
@@ -38,6 +46,7 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         nav_view?.apply {
             setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+            selectedItemId = R.id.navigation_home
         }
     }
 }

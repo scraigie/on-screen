@@ -2,7 +2,8 @@ package movies
 
 import (
 	"net/http"
-
+	"io/ioutil"
+	
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 )
@@ -22,14 +23,9 @@ func Routes() *chi.Mux {
 }
 
 func getMovies(w http.ResponseWriter, r *http.Request) {
-	movies := []Movies {
-		{
-			Title: "",
-			ReleaseDate: "",
-			Director: "",
-			Rating: "",
-			ImageUrl: "",
-		},
-	}
-	render.JSON(w, r, movies)
+
+    b,_ := ioutil.ReadFile("movies.json");
+
+	render.PlainText(w,r,string(b))
+	// render.JSON(w, r, movies)
 }

@@ -27,6 +27,7 @@ dependencies {
 
     implementation project(path: ':core')
     implementation project(path: ':movies')
+    implementation project(path: ':tv_shows')
 
     implementation "org.koin:koin-androidx-scope:$koin_version"
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="GenreChip" parent="Widget.MaterialComponents.Chip.Choice">
+    <item name="chipBackgroundColor">#999999</item>
+</style>
+</resources>

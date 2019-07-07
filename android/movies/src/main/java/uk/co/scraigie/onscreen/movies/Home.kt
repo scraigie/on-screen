@@ -5,7 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 import io.reactivex.Observable
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.home_item.view.*
 import uk.co.scraigie.onscreen.core.framework.*
 
 interface MoviesHomeView : IView<MoviesHomeIntents, MoviesHomeState>
@@ -21,7 +25,46 @@ class MoviesHomeFragment: Fragment(), MoviesHomeView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_home, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val adapter = MoviesHomeAdapter()
+        movies_home_rv.adapter = adapter
+        adapter.notifyDataSetChanged()
+    }
 }
+
+class MoviesHomeAdapter: RecyclerView.Adapter<MovieViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+        return MovieViewHolder(parent)
+    }
+
+    override fun getItemCount(): Int {
+        return 10
+    }
+
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+        holder.itemView.apply {
+            content_image.load("https://image.tmdb.org/t/p/w500/kZv92eTc0Gg3mKxqjjDAM73z9cy.jpg")
+            title.text = "Movie Title"
+            director.text = "Movie Director"
+            cast.text = "Brad Pitt, Leonardo DiCaprio"
+            rating.text = "4.5"
+            genres_chips.apply {
+                removeAllViews()
+                listOf("Action", "Drama", "Horror").forEach { chipText ->
+                    addView((LayoutInflater.from(context).inflate(
+                        R.layout.view_text_chip, genres_chips, false) as Chip).apply {
+                        this.text = chipText
+                    })
+                }
+            }
+
+        }
+    }
+}
+
+class MovieViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.home_item, parent, false))
 
 class MoviesHomePresenter: BasePresenter<MoviesHomeView, MoviesHomeState, MoviesHomeIntents, MoviesHomeActions, MoviesHomeResult>() {
 
