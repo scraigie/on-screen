@@ -7,7 +7,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
-	"api/features/movies"
+	"bff-mobile/features/movies"
 )
 
 func Routes() *chi.Mux {

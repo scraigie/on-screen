@@ -1,13 +1,5 @@
-Download golang
+## bff
+`docker build -t bff . && docker run -itd -p 8080:8080 bff`
 
-## install dep for dependency management
-`brew install dep`
-
-`brew upgrade dep`
-
-`dep init`
-
-## Adding depedencies
-`dep ensure -add github.com/foo/bar github.com/baz/quux`
-
-
+## build and run Nginx image
+`docker build -t nginx-cache . && docker run -itd -p 8081:80 --mount type=bind,source="$(pwd)"/logs,target=/var/log/nginx nginx-cache`

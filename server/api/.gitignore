@@ -1,0 +1,4 @@
+src/bff-mobile/vendor/
+src/bff-mobile/Gopkg.lock
+bin/
+pkg/
