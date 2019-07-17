@@ -3,7 +3,8 @@ package movies
 import (
 	"net/http"
 	"io/ioutil"
-	
+	// "fmt"
+	// "bff-mobile/routes"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 )
@@ -24,8 +25,11 @@ func Routes() *chi.Mux {
 
 func getMovies(w http.ResponseWriter, r *http.Request) {
 
-    b,_ := ioutil.ReadFile("movies.json");
+	b,_ := ioutil.ReadFile("movies.json");
 
+	// moviesRoute := routes.Get("bff-mobile/features/movies.getMovies")
+	// render.PlainText(w,r,moviesRoute)
 	render.PlainText(w,r,string(b))
+
 	// render.JSON(w, r, movies)
 }
