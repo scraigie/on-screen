@@ -2,34 +2,73 @@ package movies
 
 import (
 	"net/http"
-	"io/ioutil"
-	// "fmt"
-	// "bff-mobile/routes"
+	"bff-mobile/routes"
+	"bff-mobile/graphql-client"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
+	"strconv"
+	"fmt"
 )
-
-type Movies struct {
-	Title string `json:"title"`
-	ReleaseDate string `json:"releaseDate"`
-	Director string `json:"director"`
-	Rating string `json:"rating"`
-	ImageUrl string `json:"imageUrl"`
-}
 
 func Routes() *chi.Mux {
 	router := chi.NewRouter()
 	router.Get("/", getMovies)
+	router.Get("/{id}", getMovieDetail)
 	return router
+}
+
+type Link struct {
+	Href string `json:"href"`
+}
+
+type Movie struct {
+	Name string `json:"title"`
+	Link Link `json:"link"`
+	Cast interface{} `json:"cast"`
+	Crew interface{} `json:"crew"`
+	Genres interface{} `json:"genres"`
+	Rating float32 `json:"rating"`
+	Id int `json:"id"`
 }
 
 func getMovies(w http.ResponseWriter, r *http.Request) {
 
-	b,_ := ioutil.ReadFile("movies.json");
+	var resp struct {
+		Data struct {
+			Movies []Movie `json:"movies"`
+		} `json:"data"`
+	}
 
-	// moviesRoute := routes.Get("bff-mobile/features/movies.getMovies")
-	// render.PlainText(w,r,moviesRoute)
-	render.PlainText(w,r,string(b))
+	graphql_client.Query(MoviesQuery, &resp)
+	
+	for i, item := range resp.Data.Movies {
+		addMovieRouteLink(&resp.Data.Movies[i],strconv.Itoa(item.Id))
+	}
 
-	// render.JSON(w, r, movies)
+	render.JSON(w, r, resp.Data)
+}
+
+func addMovieRouteLink(movie *Movie, movieId string) {
+	urlParamsMap := map[string]string{"id":movieId}
+	detailRoute := routes.Get("bff-mobile/features/movies.getMovieDetail", urlParamsMap)
+	movie.Link = Link {
+		Href: detailRoute,
+	}
+}
+
+func getMovieDetail(w http.ResponseWriter, r *http.Request) {
+	movieId := chi.URLParam(r,"id")
+	
+	var resp struct {
+		Data struct{
+			MovieObj Movie `json:"movie"`
+		} `json:"data"`
+	}
+
+	query := fmt.Sprintf(MovieDetailQuery, movieId)
+	graphql_client.Query(query, &resp)
+	
+	addMovieRouteLink(&resp.Data.MovieObj, movieId)
+
+	render.JSON(w, r, resp.Data)
 }

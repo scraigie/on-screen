@@ -5,6 +5,8 @@ import (
     "sync"
     "reflect"
     "runtime"
+    "strings"
+    "fmt"
 )
 
 type routeMap = map[string]string
@@ -24,8 +26,14 @@ func Add(route string, handler http.Handler) {
     getInstance()[funcName] = route
 }
 
-func Get(key string) string {
-    return getInstance()[key]
+func Get(key string, params map[string]string) string {
+    url := getInstance()[key]
+
+    for k,v := range params {
+       url = strings.ReplaceAll(url, fmt.Sprintf("{%s}",k), v)
+    }
+    
+    return url
 }
 
 func getFunctionName(i interface{}) string {

@@ -1,0 +1,791 @@
+{
+    "id": 287947,
+    "cast": [
+      {
+        "cast_id": 14,
+        "character": "Shazam",
+        "credit_id": "59f3d72b9251414d570035e4",
+        "gender": 2,
+        "id": 69899,
+        "name": "Zachary Levi",
+        "order": 0,
+        "profile_path": "/1W8L3kEMMPF9umT3ZGaNIiCYKfZ.jpg"
+      },
+      {
+        "cast_id": 19,
+        "character": "Billy Batson",
+        "credit_id": "5a029107c3a368637f00b104",
+        "gender": 2,
+        "id": 1768966,
+        "name": "Asher Angel",
+        "order": 1,
+        "profile_path": "/l35dA6bF2JmpDsiii8GTW8eUDLP.jpg"
+      },
+      {
+        "cast_id": 18,
+        "character": "Doctor Thaddeus  Sivana",
+        "credit_id": "59fb6f9592514113a6015e1d",
+        "gender": 2,
+        "id": 2983,
+        "name": "Mark Strong",
+        "order": 2,
+        "profile_path": "/63AwQg1hz4KQlStZDufhwJdLmT5.jpg"
+      },
+      {
+        "cast_id": 20,
+        "character": "Freddy Freeman",
+        "credit_id": "5a28a3740e0a264cc81154db",
+        "gender": 2,
+        "id": 1774679,
+        "name": "Jack Dylan Grazer",
+        "order": 3,
+        "profile_path": "/q3eF91Q7A3t5GFB5N0S7A1OSvV0.jpg"
+      },
+      {
+        "cast_id": 73,
+        "character": "The Wizard",
+        "credit_id": "5b44ecf6c3a36840b8030ce1",
+        "gender": 2,
+        "id": 938,
+        "name": "Djimon Hounsou",
+        "order": 4,
+        "profile_path": "/5Nsd55XnTVAaiyeMfKh0udl8Qyu.jpg"
+      },
+      {
+        "cast_id": 25,
+        "character": "Darla Dudley",
+        "credit_id": "5a481a590e0a2648a1007994",
+        "gender": 1,
+        "id": 1726891,
+        "name": "Faithe Herman",
+        "order": 5,
+        "profile_path": "/9BnLbO7HqauDxJMH4V6L1mjNglI.jpg"
+      },
+      {
+        "cast_id": 17,
+        "character": "Mary Bromfield",
+        "credit_id": "59fb6f76c3a3681abb0166f2",
+        "gender": 1,
+        "id": 54633,
+        "name": "Grace Fulton",
+        "order": 6,
+        "profile_path": "/koezvzP5M36j1XNaHkboeBnaN63.jpg"
+      },
+      {
+        "cast_id": 21,
+        "character": "Eugene Choi",
+        "credit_id": "5a303802c3a3680b9a18fcc6",
+        "gender": 2,
+        "id": 1397359,
+        "name": "Ian Chen",
+        "order": 7,
+        "profile_path": "/2XQsX20dUD5xLO78IbV9KYgnG6a.jpg"
+      },
+      {
+        "cast_id": 22,
+        "character": "Pedro Peña",
+        "credit_id": "5a303823925141032c17eaea",
+        "gender": 0,
+        "id": 1940197,
+        "name": "Jovan Armand",
+        "order": 8,
+        "profile_path": "/6LFTVoxooEMrQWjSXTmYJl1KXK4.jpg"
+      },
+      {
+        "cast_id": 27,
+        "character": "Rosa Vasquez",
+        "credit_id": "5a666c2e925141573f005372",
+        "gender": 1,
+        "id": 1181306,
+        "name": "Marta Milans",
+        "order": 9,
+        "profile_path": "/nTvErwx5jnw0UmXTXZdXWlwxmYP.jpg"
+      },
+      {
+        "cast_id": 24,
+        "character": "Victor Vasquez",
+        "credit_id": "5a4814e60e0a2648920070af",
+        "gender": 2,
+        "id": 111698,
+        "name": "Cooper Andrews",
+        "order": 10,
+        "profile_path": "/uyvhcj3hrhCWqXmS4VSM36LhISt.jpg"
+      },
+      {
+        "cast_id": 44,
+        "character": "Dr. Thaddeus Sivana (1974)",
+        "credit_id": "5a95e25d0e0a262efe00790d",
+        "gender": 2,
+        "id": 1639977,
+        "name": "Ethan Pugiotto",
+        "order": 11,
+        "profile_path": "/64FL927R1wf1iLrXx8bbbSPOf6F.jpg"
+      },
+      {
+        "cast_id": 83,
+        "character": "Sivana's Father",
+        "credit_id": "5ca78e5dc3a3681496ab7801",
+        "gender": 2,
+        "id": 5589,
+        "name": "John Glover",
+        "order": 12,
+        "profile_path": "/aPmq20MXqFALrUxaaJoC2Xonumo.jpg"
+      },
+      {
+        "cast_id": 88,
+        "character": "Sid Sivana (1974)",
+        "credit_id": "5cd7cfa7c3a36877cfc03c8b",
+        "gender": 0,
+        "id": 2310745,
+        "name": "Landon Doak",
+        "order": 13,
+        "profile_path": null
+      },
+      {
+        "cast_id": 90,
+        "character": "Officer #1",
+        "credit_id": "5cd7d05b9251417580cde455",
+        "gender": 2,
+        "id": 948533,
+        "name": "Paul Braunstein",
+        "order": 15,
+        "profile_path": "/5OE8YbYojlMd4yquOpsM7T7xl2l.jpg"
+      },
+      {
+        "cast_id": 91,
+        "character": "Officer #2",
+        "credit_id": "5cd7d096c3a3683c67c00b61",
+        "gender": 0,
+        "id": 1896522,
+        "name": "Nadine Roden",
+        "order": 16,
+        "profile_path": "/3YCrGi0PwVbUCH3waX0GS8clN9P.jpg"
+      },
+      {
+        "cast_id": 49,
+        "character": "Young Billy",
+        "credit_id": "5aa2c7079251414c5a00ead6",
+        "gender": 2,
+        "id": 1994215,
+        "name": "David Kohlsmith",
+        "order": 17,
+        "profile_path": "/yMKLIW8R4RuP7eAgMA2zYlhvOqb.jpg"
+      },
+      {
+        "cast_id": 53,
+        "character": "Billy's Mom",
+        "credit_id": "5ab15287c3a368619e00fe01",
+        "gender": 1,
+        "id": 1482440,
+        "name": "Caroline Palmer",
+        "order": 18,
+        "profile_path": "/bBoPZEt3IDFzKgmvnO8Bd75rgDW.jpg"
+      },
+      {
+        "cast_id": 56,
+        "character": "Woman in Red Coat",
+        "credit_id": "5abac823c3a368435c007e99",
+        "gender": 1,
+        "id": 2009135,
+        "name": "Emily Nixon",
+        "order": 19,
+        "profile_path": "/AoerhdaTn77yUrPXaIC721z4ldy.jpg"
+      },
+      {
+        "cast_id": 58,
+        "character": "Brett Bryer",
+        "credit_id": "5ac96fad92514162a404b4fc",
+        "gender": 2,
+        "id": 1857464,
+        "name": "Carson MacCormac",
+        "order": 20,
+        "profile_path": "/jRCd3axr0kZhGJaYE3ksACdi42a.jpg"
+      },
+      {
+        "cast_id": 34,
+        "character": "Dr. Lynn Crosby",
+        "credit_id": "5a723b2d9251417f25010c89",
+        "gender": 1,
+        "id": 1302131,
+        "name": "Lotta Losten",
+        "order": 21,
+        "profile_path": "/k6C2tAU9EvFpBlLx9O2fKEVRFwx.jpg"
+      },
+      {
+        "cast_id": 42,
+        "character": "Ms. E.B. Glover",
+        "credit_id": "5a95e2340e0a262efb0076fc",
+        "gender": 1,
+        "id": 1659211,
+        "name": "Andi Osho",
+        "order": 22,
+        "profile_path": "/wPNOJVumDNavNhEYHq9VXih49YQ.jpg"
+      },
+      {
+        "cast_id": 71,
+        "character": "Mrs. Sivana (uncredited)",
+        "credit_id": "5b414d9f0e0a2670fc00a9e4",
+        "gender": 1,
+        "id": 20755,
+        "name": "Natalia Safran",
+        "order": 23,
+        "profile_path": "/3luVtifpeQvF54jEf6NbK2Oz0dE.jpg"
+      },
+      {
+        "cast_id": 23,
+        "character": "Mr. Breyer (uncredited)",
+        "credit_id": "5a32e31a925141547e01c693",
+        "gender": 0,
+        "id": 1941314,
+        "name": "David J. MacNeil",
+        "order": 24,
+        "profile_path": "/2QSGxC5NzshYhIHamqPFzRsVHh7.jpg"
+      },
+      {
+        "cast_id": 45,
+        "character": "Sivana's Twin Sisters - 12 Yrs Old (uncredited)",
+        "credit_id": "5a95e2700e0a262f10007fbb",
+        "gender": 1,
+        "id": 1669169,
+        "name": "Lou Lou Safran",
+        "order": 25,
+        "profile_path": "/9iRNXBVWoASeZbrS0aJ7VQjyz6b.jpg"
+      },
+      {
+        "cast_id": 43,
+        "character": "Lillian Price (Interviewee)",
+        "credit_id": "5a95e249c3a368118f00720d",
+        "gender": 1,
+        "id": 1723918,
+        "name": "Ava Preston",
+        "order": 26,
+        "profile_path": "/npwnZYMM4qfPXkNcOcLJ86cES79.jpg"
+      },
+      {
+        "cast_id": 47,
+        "character": "Luis Pichardo (Interviewee)",
+        "credit_id": "5aa2c6dec3a36829a80103cd",
+        "gender": 2,
+        "id": 1994213,
+        "name": "Manuel Rodriguez-Saenz",
+        "order": 27,
+        "profile_path": "/rOnAxgtUgGZmYuAwSxBVyPVoX6F.jpg"
+      },
+      {
+        "cast_id": 60,
+        "character": "Mehmet Kotil (Interviewee)",
+        "credit_id": "5ad82d5dc3a36871a600b5eb",
+        "gender": 2,
+        "id": 1739122,
+        "name": "Ali Badshah",
+        "order": 28,
+        "profile_path": "/7yNCXP1xAgEnSSJzG83VrdGArkz.jpg"
+      },
+      {
+        "cast_id": 48,
+        "character": "Pissed Off Phone Owner",
+        "credit_id": "5aa2c6f90e0a262c7a010cab",
+        "gender": 2,
+        "id": 43284,
+        "name": "Simon Northwood",
+        "order": 29,
+        "profile_path": "/zaBu1bUHJAZZt11TbdPRjfYLpMw.jpg"
+      },
+      {
+        "cast_id": 51,
+        "character": "Store Clerk",
+        "credit_id": "5aa821240e0a263dd60241cd",
+        "gender": 1,
+        "id": 1881104,
+        "name": "Lovina Yavari",
+        "order": 30,
+        "profile_path": "/cQz5SLnBJz99CSMnuBngqVpcI1k.jpg"
+      },
+      {
+        "cast_id": 85,
+        "character": "Senior Girl",
+        "credit_id": "5cac543c0e0a260822aec289",
+        "gender": 1,
+        "id": 2284635,
+        "name": "Rachel Boyd",
+        "order": 31,
+        "profile_path": "/bkRBR0khUTzcnm8Pq7JBiq7eABg.jpg"
+      },
+      {
+        "cast_id": 50,
+        "character": "Night Club Patron (uncredited)",
+        "credit_id": "5aa821100e0a263dd60241ad",
+        "gender": 0,
+        "id": 1887791,
+        "name": "Jim Pagiamtzis",
+        "order": 32,
+        "profile_path": null
+      },
+      {
+        "cast_id": 46,
+        "character": "Pedrestian",
+        "credit_id": "5a95e2ff92514154ed007232",
+        "gender": 2,
+        "id": 1906145,
+        "name": "Raul Torres",
+        "order": 33,
+        "profile_path": "/tXPUe2WFEIgh2J0h5XExltHG7c1.jpg"
+      },
+      {
+        "cast_id": 54,
+        "character": "Passing Teen",
+        "credit_id": "5ab4f9de9251417af601abd3",
+        "gender": 2,
+        "id": 1993743,
+        "name": "Jhaleil Swaby",
+        "order": 34,
+        "profile_path": "/5mgVhVMYtfTkvyK38OQ98n0Xs34.jpg"
+      },
+      {
+        "cast_id": 55,
+        "character": "Little Boy",
+        "credit_id": "5ab4f9f09251417b0501af53",
+        "gender": 2,
+        "id": 2005750,
+        "name": "Jackson Reid",
+        "order": 35,
+        "profile_path": "/tGqmNaz6g1v74nbbkZhgkoiGsyD.jpg"
+      },
+      {
+        "cast_id": 67,
+        "character": "Student #2",
+        "credit_id": "5aef49a80e0a261d92007d66",
+        "gender": 0,
+        "id": 2037558,
+        "name": "Bryce Arden Poe",
+        "order": 36,
+        "profile_path": null
+      },
+      {
+        "cast_id": 57,
+        "character": "Student #3",
+        "credit_id": "5abd5fa80e0a2609d8036e26",
+        "gender": 0,
+        "id": 2010882,
+        "name": "Tosh Robertson",
+        "order": 37,
+        "profile_path": null
+      },
+      {
+        "cast_id": 59,
+        "character": "Carnival Goer #2",
+        "credit_id": "5ad01e24c3a36842c70063e4",
+        "gender": 1,
+        "id": 2022034,
+        "name": "Pearl Ho",
+        "order": 38,
+        "profile_path": "/6oODNxU3ifOrNHFpvH8F53K3ttw.jpg"
+      },
+      {
+        "cast_id": 61,
+        "character": "Bus Passenger #3",
+        "credit_id": "5adb8fbc9251410acb0104cc",
+        "gender": 1,
+        "id": 1281629,
+        "name": "Cassandra Ebner",
+        "order": 39,
+        "profile_path": "/ykIe7cvJjrdBgPilC5sCsZkwXCz.jpg"
+      },
+      {
+        "cast_id": 78,
+        "character": "Bus Passenger #7",
+        "credit_id": "5b5bc4c70e0a262e950096c6",
+        "gender": 0,
+        "id": 2093827,
+        "name": "Stephanie Hawkins",
+        "order": 40,
+        "profile_path": null
+      },
+      {
+        "cast_id": 68,
+        "character": "Bus Passenger #2",
+        "credit_id": "5af87b5e9251415a3c000c94",
+        "gender": 1,
+        "id": 2041867,
+        "name": "Angelica Lisk-Hann",
+        "order": 41,
+        "profile_path": "/hEwp7wR3GGcZMofacgtwe7ipTii.jpg"
+      },
+      {
+        "cast_id": 72,
+        "character": "Father at Carnival",
+        "credit_id": "5b414de8c3a368409e0081fb",
+        "gender": 0,
+        "id": 1021545,
+        "name": "Jesse Bond",
+        "order": 42,
+        "profile_path": "/nyAZ0BNDGZsS4NPmQriDkSmgghS.jpg"
+      },
+      {
+        "cast_id": 75,
+        "character": "Little Girl at Carnival",
+        "credit_id": "5b5bc3eb925141522e00832b",
+        "gender": 1,
+        "id": 1639984,
+        "name": "Harper Gunn",
+        "order": 43,
+        "profile_path": "/nmPGMMuBO2lqiWVOorActooMkS9.jpg"
+      },
+      {
+        "cast_id": 76,
+        "character": "Burke Breyer",
+        "credit_id": "5b5bc448925141522700896c",
+        "gender": 0,
+        "id": 1883593,
+        "name": "Evan Marsh",
+        "order": 44,
+        "profile_path": "/abEhV2v27waWWOVt328tD5o9P0C.jpg"
+      },
+      {
+        "cast_id": 77,
+        "character": "Attractive Lady",
+        "credit_id": "5b5bc4679251415224008d29",
+        "gender": 0,
+        "id": 2093823,
+        "name": "Kerri Kamara",
+        "order": 45,
+        "profile_path": null
+      },
+      {
+        "cast_id": 81,
+        "character": "Man at Carnival",
+        "credit_id": "5c9c32270e0a265ce13694c9",
+        "gender": 2,
+        "id": 2275601,
+        "name": "Leon Oliveira Martins",
+        "order": 46,
+        "profile_path": "/9KKfucYUYe9SuqQfcgCdIGv644g.jpg"
+      },
+      {
+        "cast_id": 82,
+        "character": "Woman at Carnival",
+        "credit_id": "5c9c32359251410a640a22c9",
+        "gender": 1,
+        "id": 2275602,
+        "name": "Nilce Moretto",
+        "order": 47,
+        "profile_path": "/gNu57ACsJtJ3VPidt1zwdHd1lOE.jpg"
+      },
+      {
+        "cast_id": 84,
+        "character": "Mr Mind (Voice)/ The Husband (Voice) / Gangster Crocodile-Men (uncredited)",
+        "credit_id": "5ca854770e0a264c8bf14ac4",
+        "gender": 2,
+        "id": 1302082,
+        "name": "David F. Sandberg",
+        "order": 48,
+        "profile_path": "/10p2i4OW0JWAbnOb7yMLUEGdSqM.jpg"
+      },
+      {
+        "cast_id": 87,
+        "character": "Superman (uncredited)",
+        "credit_id": "5cd7bc809251417580cdc1a2",
+        "gender": 2,
+        "id": 2072200,
+        "name": "Ryan Handley",
+        "order": 49,
+        "profile_path": null
+      },
+      {
+        "cast_id": 63,
+        "character": "Super Hero Freddy",
+        "credit_id": "5adbc4d20e0a2614320157e6",
+        "gender": 2,
+        "id": 11702,
+        "name": "Adam Brody",
+        "order": 50,
+        "profile_path": "/jeMhuu9Q81XJLIef1OU7NlcxRW0.jpg"
+      },
+      {
+        "cast_id": 66,
+        "character": "Super Hero Darla",
+        "credit_id": "5adcd64ac3a36862ef02807a",
+        "gender": 1,
+        "id": 22122,
+        "name": "Meagan Good",
+        "order": 51,
+        "profile_path": "/rijAxPPt2ecneJE5z4uDZbdNivQ.jpg"
+      },
+      {
+        "cast_id": 65,
+        "character": "Super Hero Mary",
+        "credit_id": "5adcd642c3a36803fa02365e",
+        "gender": 1,
+        "id": 101028,
+        "name": "Michelle Borth",
+        "order": 52,
+        "profile_path": "/xHUBBBovgng4s8zHHfSyWpYDqW5.jpg"
+      },
+      {
+        "cast_id": 62,
+        "character": "Super Hero Eugene",
+        "credit_id": "5adbc4560e0a261442013ad7",
+        "gender": 2,
+        "id": 1299232,
+        "name": "Ross Butler",
+        "order": 53,
+        "profile_path": "/rGgsEH9csivqlnoc43DEKVXRnbt.jpg"
+      },
+      {
+        "cast_id": 64,
+        "character": "Super Hero Pedro",
+        "credit_id": "5adbd0f09251410acd013c66",
+        "gender": 2,
+        "id": 51976,
+        "name": "D.J. Cotrona",
+        "order": 54,
+        "profile_path": "/tN21XKBAmgW6BVrowZYFhmpRoH3.jpg"
+      },
+      {
+        "cast_id": 93,
+        "character": "Sid Sivana",
+        "credit_id": "5d2ec07e6a300b5922a3fb65",
+        "gender": 2,
+        "id": 1474854,
+        "name": "Wayne Ward",
+        "order": 55,
+        "profile_path": null
+      }
+    ],
+    "crew": [
+      {
+        "credit_id": "545b5ec4c3a36853580012ad",
+        "department": "Production",
+        "gender": 2,
+        "id": 10830,
+        "job": "Executive Producer",
+        "name": "Toby Emmerich",
+        "profile_path": "/mfkHPnmazcxDcjyVovNPzhUX1JN.jpg"
+      },
+      {
+        "credit_id": "570ed4e092514102af000a6b",
+        "department": "Production",
+        "gender": 2,
+        "id": 10949,
+        "job": "Producer",
+        "name": "Michael E. Uslan",
+        "profile_path": "/lJ8n7Z9JB0XH4dxdgI48HG9jX1o.jpg"
+      },
+      {
+        "credit_id": "585d50eb92514123b600ba7b",
+        "department": "Production",
+        "gender": 0,
+        "id": 220273,
+        "job": "Co-Producer",
+        "name": "F.J. DeSanto",
+        "profile_path": null
+      },
+      {
+        "credit_id": "585d5107c3a368409800aaa0",
+        "department": "Production",
+        "gender": 2,
+        "id": 71079,
+        "job": "Producer",
+        "name": "Michael Ewing",
+        "profile_path": null
+      },
+      {
+        "credit_id": "585d512992514123b900c06c",
+        "department": "Production",
+        "gender": 1,
+        "id": 1039217,
+        "job": "Executive Producer",
+        "name": "Dany Garcia",
+        "profile_path": "/nZnQuskqDYmm9BDfsgRjDyVakCR.jpg"
+      },
+      {
+        "credit_id": "585d513cc3a368409000d1c5",
+        "department": "Production",
+        "gender": 0,
+        "id": 1466097,
+        "job": "Producer",
+        "name": "Hiram Garcia",
+        "profile_path": null
+      },
+      {
+        "credit_id": "585d515192514123c200c0cb",
+        "department": "Production",
+        "gender": 2,
+        "id": 56996,
+        "job": "Executive Producer",
+        "name": "Christopher Godsick",
+        "profile_path": null
+      },
+      {
+        "credit_id": "5891081492514103f700b7f3",
+        "department": "Writing",
+        "gender": 2,
+        "id": 1101411,
+        "job": "Screenplay",
+        "name": "Henry Gayden",
+        "profile_path": "/iZBymEJH2RkI1egloFwqtFE4epN.jpg"
+      },
+      {
+        "credit_id": "59961bdc92514124f8005a7a",
+        "department": "Directing",
+        "gender": 2,
+        "id": 1302082,
+        "job": "Director",
+        "name": "David F. Sandberg",
+        "profile_path": "/10p2i4OW0JWAbnOb7yMLUEGdSqM.jpg"
+      },
+      {
+        "credit_id": "5a6a33450e0a266f2800244c",
+        "department": "Editing",
+        "gender": 0,
+        "id": 1429252,
+        "job": "Editor",
+        "name": "Michel Aller",
+        "profile_path": null
+      },
+      {
+        "credit_id": "5a6a33520e0a266f28002466",
+        "department": "Production",
+        "gender": 2,
+        "id": 928272,
+        "job": "Casting",
+        "name": "Rich Delia",
+        "profile_path": "/jcofXM4kMQGaES7YeDly8WzBj14.jpg"
+      },
+      {
+        "credit_id": "5a6a336b0e0a266f2800248d",
+        "department": "Writing",
+        "gender": 0,
+        "id": 1967023,
+        "job": "Characters",
+        "name": "C.C. Beck",
+        "profile_path": null
+      },
+      {
+        "credit_id": "5a6a3380925141225b002276",
+        "department": "Writing",
+        "gender": 0,
+        "id": 1967024,
+        "job": "Characters",
+        "name": "Bill Parker",
+        "profile_path": null
+      },
+      {
+        "credit_id": "5a81cac9c3a368189303922a",
+        "department": "Art",
+        "gender": 1,
+        "id": 169743,
+        "job": "Production Design",
+        "name": "Jennifer Spence",
+        "profile_path": "/fM1ZQ8p6qV62HhkhVJruKJu46LO.jpg"
+      },
+      {
+        "credit_id": "5a81cb0c0e0a262ab50372a9",
+        "department": "Crew",
+        "gender": 2,
+        "id": 1830633,
+        "job": "Stunt Coordinator",
+        "name": "Kyle Gardiner",
+        "profile_path": null
+      },
+      {
+        "credit_id": "5a81cb30c3a368189a0375e2",
+        "department": "Camera",
+        "gender": 2,
+        "id": 23461,
+        "job": "Director of Photography",
+        "name": "Maxime Alexandre",
+        "profile_path": "/8DUbftFzlAr7NvwylkpJ5NCMS8D.jpg"
+      },
+      {
+        "credit_id": "5a81cc2c0e0a262aa2037877",
+        "department": "Costume & Make-Up",
+        "gender": 1,
+        "id": 1314152,
+        "job": "Costume Design",
+        "name": "Leah Butler",
+        "profile_path": null
+      },
+      {
+        "credit_id": "5a8476929251410ac400e733",
+        "department": "Production",
+        "gender": 2,
+        "id": 18918,
+        "job": "Executive Producer",
+        "name": "Dwayne Johnson",
+        "profile_path": "/kuqFzlYMc2IrsOyPznMd1FroeGq.jpg"
+      },
+      {
+        "credit_id": "5a93f4c60e0a2616bd02ff53",
+        "department": "Art",
+        "gender": 0,
+        "id": 53114,
+        "job": "Set Decoration",
+        "name": "Shane Vieau",
+        "profile_path": null
+      },
+      {
+        "credit_id": "5aafb654c3a36846ba03c71e",
+        "department": "Production",
+        "gender": 2,
+        "id": 52259,
+        "job": "Producer",
+        "name": "Peter Safran",
+        "profile_path": "/fi7kdDDUdNrn5K6vmLkLrLarQQs.jpg"
+      },
+      {
+        "credit_id": "5af87ba9c3a36845e6000a73",
+        "department": "Crew",
+        "gender": 1,
+        "id": 2041867,
+        "job": "Stunts",
+        "name": "Angelica Lisk-Hann",
+        "profile_path": "/hEwp7wR3GGcZMofacgtwe7ipTii.jpg"
+      },
+      {
+        "credit_id": "5b53a89dc3a3680b6801f60b",
+        "department": "Sound",
+        "gender": 2,
+        "id": 40825,
+        "job": "Original Music Composer",
+        "name": "Benjamin Wallfisch",
+        "profile_path": "/dWcshjk0OUi3stGFFrwZIsYKZfQ.jpg"
+      },
+      {
+        "credit_id": "5b6dd5320e0a267ef1151097",
+        "department": "Production",
+        "gender": 2,
+        "id": 47365,
+        "job": "Executive Producer",
+        "name": "Walter Hamada",
+        "profile_path": "/k5QwIY7m4SJJceH2GeBgDrR61Vo.jpg"
+      },
+      {
+        "credit_id": "5c111a95c3a36825280fcda4",
+        "department": "Writing",
+        "gender": 2,
+        "id": 582919,
+        "job": "Story",
+        "name": "Darren Lemke",
+        "profile_path": "/msJQlfbO5AmVAq7Q2pBy6cao3kd.jpg"
+      },
+      {
+        "credit_id": "5cd7772892514121dacd74d8",
+        "department": "Writing",
+        "gender": 2,
+        "id": 1101411,
+        "job": "Story",
+        "name": "Henry Gayden",
+        "profile_path": "/iZBymEJH2RkI1egloFwqtFE4epN.jpg"
+      },
+      {
+        "credit_id": "5cfa395a9251411882caa5d5",
+        "department": "Production",
+        "gender": 2,
+        "id": 211962,
+        "job": "Executive Producer",
+        "name": "Geoff Johns",
+        "profile_path": "/1hiQjkIkeFoiwvD4yIk2Dq6tnOa.jpg"
+      }
+    ]
+  }

@@ -1,0 +1,30 @@
+{
+    "results": [
+        {
+        "vote_count": 825,
+        "id": 287947,
+        "video": false,
+        "vote_average": 6.3,
+        "title": "Dark Phoenix",
+        "popularity": 257.366,
+        "poster_path": "/kZv92eTc0Gg3mKxqjjDAM73z9cy.jpg",
+        "original_language": "en",
+        "original_title": "Dark Phoenix",
+        "genre_ids": [
+          878,
+          28
+        ],
+        "backdrop_path": "/phxiKFDvPeQj4AbkvJLmuZEieDU.jpg",
+        "adult": false,
+        "overview": "The X-Men face their most formidable and powerful foe when one of their own, Jean Grey, starts to spiral out of control. During a rescue mission in outer space, Jean is nearly killed when she's hit by a mysterious cosmic force. Once she returns home, this force not only makes her infinitely more powerful, but far more unstable. The X-Men must now band together to save her soul and battle aliens that want to use Grey's new abilities to rule the galaxy.",
+        "release_date": "2019-06-05"
+      }
+    ],
+    "page": 1,
+    "total_results": 970,
+    "dates": {
+      "maximum": "2019-06-26",
+      "minimum": "2019-05-09"
+    },
+    "total_pages": 49
+}

@@ -7,6 +7,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/render"
 	"bff-mobile/features/movies"
+	"bff-mobile/features/mockdata"
 	"bff-mobile/routes"
 
 	"strings"
@@ -24,6 +25,7 @@ func Routes() *chi.Mux {
 
 	router.Route("/v1", func(r chi.Router) {
 		r.Mount("/api/movies", movies.Routes())
+		r.Mount("/api/mock/", mockdata.Routes())
 	})
 
 	return router
