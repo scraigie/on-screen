@@ -2,20 +2,12 @@ package movies
 
 import (
 	"net/http"
-	"bff-mobile/routes"
 	"bff-mobile/graphql-client"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 	"strconv"
 	"fmt"
 )
-
-func Routes() *chi.Mux {
-	router := chi.NewRouter()
-	router.Get("/", getMovies)
-	router.Get("/{id}", getMovieDetail)
-	return router
-}
 
 type Link struct {
 	Href string `json:"href"`
@@ -49,8 +41,7 @@ func getMovies(w http.ResponseWriter, r *http.Request) {
 }
 
 func addMovieRouteLink(movie *Movie, movieId string) {
-	urlParamsMap := map[string]string{"id":movieId}
-	detailRoute := routes.Get("bff-mobile/features/movies.getMovieDetail", urlParamsMap)
+	detailRoute := MoviesRoutes.DETAIL.GetRoute(movieId)
 	movie.Link = Link {
 		Href: detailRoute,
 	}

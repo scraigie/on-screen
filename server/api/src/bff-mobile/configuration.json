@@ -1,4 +1,5 @@
 {
     "bff_url": "http://localhost:8083",
-    "image_base_url": ""
+    "image_base_url": "",
+    "v1_api_base_path": "/v1/api"
 }
