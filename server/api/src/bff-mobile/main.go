@@ -8,11 +8,9 @@ import (
 	"github.com/go-chi/render"
 	"bff-mobile/features/movies"
 	"bff-mobile/features/mockdata"
-
+    "bff-mobile/config"
 	"strings"
 )
-
-const V1_BASE = "/v1/api"
 
 func Routes() *chi.Mux {
 	router := chi.NewRouter()
@@ -24,14 +22,13 @@ func Routes() *chi.Mux {
 		middleware.Recoverer,                          // Recover from panics without crashing server
 	)
 
-	router.Route(V1_BASE, func(r chi.Router) {
-		r.Mount(movies.MOVIES_BASE, movies.Routes())
+	router.Route(config.V1_BASE, func(r chi.Router) {
+		r.Mount(config.MOVIES_BASE, movies.Routes())
 		r.Mount("/mock/", mockdata.Routes())
 	})
 
 	return router
 }
-
 
 func main() {
 

@@ -3,11 +3,9 @@ package movies
 import (
 	"path"
     "strings"
-	"github.com/go-chi/chi"
+    "github.com/go-chi/chi"
+    "bff-mobile/config"
 )
-
-const V1_BASE = "/v1/api"
-const MOVIES_BASE = "/movies"
 
 func Routes() *chi.Mux {
 	router := chi.NewRouter()
@@ -28,10 +26,24 @@ var MoviesRoutes = struct {
     HOME MoviesHomeRoute
     DETAIL MovieDetailRoute 
 } {
-    HOME: MoviesHomeRoute(path.Join(V1_BASE, MOVIES_BASE)), 
-    DETAIL: MovieDetailRoute(path.Join(V1_BASE, MOVIES_BASE, "{id}")),
+    HOME: MoviesHomeRoute(path.Join(config.V1_BASE, config.MOVIES_BASE)), 
+    DETAIL: MovieDetailRoute(path.Join(config.V1_BASE, config.MOVIES_BASE, "{id}")),
 }
 
-func (r MovieDetailRoute) GetRoute(movieId string) string {
-    return strings.ReplaceAll(string(r),"{id}", movieId)
+func (r MovieDetailRoute) GetLink(movieId string) Link {
+    return Link {
+        Href: strings.ReplaceAll(string(r),"{id}", movieId),
+        Type: MOVIE_DETAIL,
+    }
+}
+
+type LinkEnum string
+
+const (
+    MOVIE_DETAIL string = "MOVIE_DETAIL"
+)
+
+type Link struct {
+	Href string `json:"href"`
+	Type string `json:"type"`
 }

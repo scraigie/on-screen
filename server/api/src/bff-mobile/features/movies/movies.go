@@ -9,10 +9,6 @@ import (
 	"fmt"
 )
 
-type Link struct {
-	Href string `json:"href"`
-}
-
 type Movie struct {
 	Name string `json:"title"`
 	Link Link `json:"link"`
@@ -41,10 +37,7 @@ func getMovies(w http.ResponseWriter, r *http.Request) {
 }
 
 func addMovieRouteLink(movie *Movie, movieId string) {
-	detailRoute := MoviesRoutes.DETAIL.GetRoute(movieId)
-	movie.Link = Link {
-		Href: detailRoute,
-	}
+	movie.Link = MoviesRoutes.DETAIL.GetLink(movieId)
 }
 
 func getMovieDetail(w http.ResponseWriter, r *http.Request) {

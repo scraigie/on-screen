@@ -7,15 +7,16 @@ query {
 	  rating
 	  id
 	  genres {
-		name
+			name
 	  }
-	  cast {
-		name
-		profile_image
+	  cast(maxItems: 3) {
+			name
+			profile_image
 	  }
 	  crew(department: "Directing") {
-		name
-		profile_image
+			name
+			profile_image
+			job
 	  }
 	}
   }
@@ -28,15 +29,17 @@ query {
 	  rating
 	  id
 	  genres {
-		name
+			name
 	  }
 	  cast {
-		name
-		profile_image
+			name
+			profile_image
+			character
 	  }
-	  crew(department: "Directing") {
-		name
-		profile_image
+	  crew {
+			name
+			profile_image
+			job
 	  }
 	}
   }
