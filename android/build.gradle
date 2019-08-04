@@ -1,5 +1,11 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+ext {
+    COMPILE_SDK_VERSION = 28
+    MIN_SDK_VERSION = 16
+    TARGET_SDK_VERSION = 28
+}
+
 buildscript {
     ext.kotlin_version = '1.3.40'
     ext {
@@ -13,6 +19,8 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//        classpath "de.mannodermaus.gradle.plugins:android-junit5:1.3.2.0"
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -26,6 +34,13 @@ allprojects {
     ext {
         rxjava_version = '2.2.9'
         koin_version = '2.0.1'
+        retrofit_version = '2.5.0'
+        gson_version = '2.8.0'
+        mockito_kotlin_version = '1.5.0'
+        mockito_version = '2.19.0'
+        junit_version = '5.3.2'
+        assertj_version = '3.11.1'
+
     }
 }
 

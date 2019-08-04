@@ -1,18 +1,18 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion COMPILE_SDK_VERSION
     defaultConfig {
         applicationId "uk.co.scraigie.onscreen"
-        minSdkVersion 16
-        targetSdkVersion 28
+        minSdkVersion MIN_SDK_VERSION
+        targetSdkVersion TARGET_SDK_VERSION
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "BFF_API", "\"http://localhost:8083/\""
     }
     buildTypes {
         release {
@@ -29,14 +29,27 @@ dependencies {
     implementation project(path: ':movies')
     implementation project(path: ':tv_shows')
 
-    implementation "org.koin:koin-androidx-scope:$koin_version"
 
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.31"
+
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.core:core-ktx:1.0.2'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofit_version") {
+        exclude group: 'io.reactivex.rxjava2', module: 'rxjava'
+    }
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.10.0"
+    implementation("com.squareup.okhttp3:logging-interceptor:4.0.1")
+
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

@@ -4,7 +4,7 @@ import android.os.Bundle
 import co.uk.scraigie.onscreen.tv.TvHomeFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import uk.co.scraigie.onscreen.movies.MoviesHomeFragment
+import uk.co.scraigie.onscreen.movies.ui.home.MoviesHomeFragment
 
 class MainActivity : BaseActivity() {
 

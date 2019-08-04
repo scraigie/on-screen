@@ -1,4 +1,4 @@
-package uk.co.scraigie.onscreen.movies
+package uk.co.scraigie.onscreen.movies.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,16 +11,44 @@ import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.home_item.view.*
 import uk.co.scraigie.onscreen.core.framework.*
+import uk.co.scraigie.onscreen.core.framework.behaviors.IFragmentLifecycleBehavior
+import uk.co.scraigie.onscreen.core.framework.behaviors.IView
+import uk.co.scraigie.onscreen.core.framework.behaviors.PresenterBehavior
+import uk.co.scraigie.onscreen.movies.R
+import uk.co.scraigie.onscreen.movies.ui.load
 
-interface MoviesHomeView : IView<MoviesHomeIntents, MoviesHomeState>
+interface MoviesHomeView : MviView<MoviesHomeIntents, MoviesHomeState>
 
-class MoviesHomeFragment: Fragment(), MoviesHomeView {
+abstract class BehaviorFragment: Fragment(), IView { //TODO - shift to common android module
+
+    val behaviorsList = mutableListOf<IFragmentLifecycleBehavior>()
+
+    fun addBehavior(behavior: IFragmentLifecycleBehavior) {
+        behaviorsList.add(behavior)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        behaviorsList.forEach { it.onStart() }
+    }
+
+    override fun onStop() {
+        behaviorsList.forEach { it.onStop() }
+        super.onStop()
+    }
+}
+
+class MoviesHomeFragment: BehaviorFragment(), MoviesHomeView {
+
+    init {
+        addBehavior(PresenterBehavior(this) { MoviesHomePresenter() })
+    }
 
     override val intentObservable: Observable<MoviesHomeIntents>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = Observable.empty() //TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 
     override fun render(state: MoviesHomeState) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =

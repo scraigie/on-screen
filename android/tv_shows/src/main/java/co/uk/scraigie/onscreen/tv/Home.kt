@@ -9,7 +9,7 @@ import io.reactivex.Observable
 import uk.co.scraigie.onscreen.core.framework.*
 import uk.co.scraigie.onscreen.tv_shows.R
 
-interface TvHomeView : IView<TvHomeIntents, TvHomeState>
+interface TvHomeView : MviView<TvHomeIntents, TvHomeState>
 
 class TvHomeFragment: Fragment(), TvHomeView {
 
