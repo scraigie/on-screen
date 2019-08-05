@@ -25,12 +25,13 @@ android {
         }
     }
 }
-//apply plugin: 'de.mannodermaus.android-junit5'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(path: ':core')
+    implementation project(path: ':core_android')
+
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -44,8 +45,7 @@ dependencies {
 
 
 
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-//    testImplementation 'junit:junit:4.12'
+    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"

@@ -26,6 +26,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(path: ':core')
+    implementation project(path: ':core_android')
     implementation project(path: ':movies')
     implementation project(path: ':tv_shows')
 
@@ -35,7 +36,7 @@ dependencies {
 
     implementation "org.koin:koin-androidx-scope:$koin_version"
 
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation 'androidx.core:core-ktx:1.0.2'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

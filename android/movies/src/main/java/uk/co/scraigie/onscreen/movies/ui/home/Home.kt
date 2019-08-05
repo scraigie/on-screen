@@ -4,44 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.home_item.view.*
+import org.koin.android.ext.android.inject
 import uk.co.scraigie.onscreen.core.framework.*
-import uk.co.scraigie.onscreen.core.framework.behaviors.IFragmentLifecycleBehavior
-import uk.co.scraigie.onscreen.core.framework.behaviors.IView
 import uk.co.scraigie.onscreen.core.framework.behaviors.PresenterBehavior
+import uk.co.scraigie.onscreen.core_android.behavior.BehaviorFragment
 import uk.co.scraigie.onscreen.movies.R
+import uk.co.scraigie.onscreen.movies.domain.MoviesInteractor
 import uk.co.scraigie.onscreen.movies.ui.load
 
 interface MoviesHomeView : MviView<MoviesHomeIntents, MoviesHomeState>
 
-abstract class BehaviorFragment: Fragment(), IView { //TODO - shift to common android module
-
-    val behaviorsList = mutableListOf<IFragmentLifecycleBehavior>()
-
-    fun addBehavior(behavior: IFragmentLifecycleBehavior) {
-        behaviorsList.add(behavior)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        behaviorsList.forEach { it.onStart() }
-    }
-
-    override fun onStop() {
-        behaviorsList.forEach { it.onStop() }
-        super.onStop()
-    }
-}
-
 class MoviesHomeFragment: BehaviorFragment(), MoviesHomeView {
 
+    private val presenter: MoviesHomePresenter by inject()
+
     init {
-        addBehavior(PresenterBehavior(this) { MoviesHomePresenter() })
+        addBehavior(PresenterBehavior(this) { presenter })
     }
 
     override val intentObservable: Observable<MoviesHomeIntents>
@@ -56,9 +39,7 @@ class MoviesHomeFragment: BehaviorFragment(), MoviesHomeView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = MoviesHomeAdapter()
-        movies_home_rv.adapter = adapter
-        adapter.notifyDataSetChanged()
+        movies_home_rv.adapter = MoviesHomeAdapter()
     }
 }
 
@@ -94,7 +75,7 @@ class MoviesHomeAdapter: RecyclerView.Adapter<MovieViewHolder>() {
 
 class MovieViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.home_item, parent, false))
 
-class MoviesHomePresenter: BasePresenter<MoviesHomeView, MoviesHomeState, MoviesHomeIntents, MoviesHomeActions, MoviesHomeResult>() {
+class MoviesHomePresenter constructor(val moviesInteractor: MoviesInteractor): BasePresenter<MoviesHomeView, MoviesHomeState, MoviesHomeIntents, MoviesHomeActions, MoviesHomeResult>() {
 
     override val intentActionResolver = IntentActionResolver<MoviesHomeIntents, MoviesHomeActions> {
         when(it)  {
@@ -114,11 +95,12 @@ class MoviesHomePresenter: BasePresenter<MoviesHomeView, MoviesHomeState, Movies
         get() = MoviesHomeState()
 
     override val reducer = MviReducer<MoviesHomeState, MoviesHomeResult> {
-            previousState, result -> initialState.copy(property = true)
+            previousState, result -> previousState.copy(property = true)
     }
 
     private val loadHomeProcessor = Processor {
-        it.map { MoviesHomeResult.LoadHomeResult }
+        it.switchMap { moviesInteractor.getHomeContent() }
+            .map { MoviesHomeResult.LoadHomeResult }
     }
 
     private val refreshProcessor = Processor {

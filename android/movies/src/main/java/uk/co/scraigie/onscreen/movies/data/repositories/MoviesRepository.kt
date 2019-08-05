@@ -6,12 +6,11 @@ import uk.co.scraigie.onscreen.movies.data.dtos.MoviesHomeDTO
 
 interface MoviesRepository {
 
-    fun getMoviesHome() : Observable<MoviesHomeDTO>
+    fun getHomeContent() : Observable<MoviesHomeDTO>
 
     class Impl(val api: MoviesApi) : MoviesRepository {
-        override fun getMoviesHome(): Observable<MoviesHomeDTO> {
+        override fun getHomeContent(): Observable<MoviesHomeDTO> {
             return api.moviesHome().toObservable()
         }
-
     }
 }
