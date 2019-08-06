@@ -1,0 +1,35 @@
+version: '3.5'
+networks:
+  default:
+    name: default-network
+services:
+  bff:
+    build:
+      context: ./api/src/bff-mobile
+    environment:
+      - GRAPHQL_ENDPOINT=http://graphql-api:4000
+    ports:
+      - "8081:8000"
+    stdin_open: true
+    tty: true
+  graphql-api:
+    build:
+      context: ./graphql-api
+    environment:
+      - MOVIE_DB_ENDPOINT=http://bff:8000
+      - API_KEY=placeholder
+    ports:
+      - "4000:4000"
+    stdin_open: true
+    tty: true
+  nginx:
+    build:
+      context: ./nginx
+    environment:
+      - BFF_ENDPOINT=http://bff:8000
+    ports:
+      - "8080:8000"
+    stdin_open: true
+    tty: true
+
+

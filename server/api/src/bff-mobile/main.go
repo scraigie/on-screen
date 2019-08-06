@@ -24,7 +24,8 @@ func Routes() *chi.Mux {
 
 	router.Route(config.V1_BASE, func(r chi.Router) {
 		r.Mount(config.MOVIES_BASE, movies.Routes())
-		r.Mount("/mock/", mockdata.Routes())
+		r.Mount("/mock", mockdata.Routes())
+		r.Mount("/configuration", config.Routes())
 	})
 
 	return router
@@ -44,5 +45,5 @@ func main() {
 		log.Panicf("Logging err: %s\n", err.Error()) // panic if there is an error
 	}
 
-	log.Fatal(http.ListenAndServe(":8083", router)) // Note, the port is usually gotten from the environment.
+	log.Fatal(http.ListenAndServe(":8000", router)) // Note, the port is usually gotten from the environment.
 }

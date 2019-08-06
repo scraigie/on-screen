@@ -6,6 +6,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"log"
+	"os"
+	"fmt"
 )
 
 func Query(query string, obj interface{}) {//interface{} {
@@ -17,7 +19,7 @@ func Query(query string, obj interface{}) {//interface{} {
 		log.Fatalln(err)
 	}
 
-	resp, err := http.Post("http://localhost:4000/graphql", "application/json", bytes.NewBuffer(requestBody))
+	resp, err := http.Post(fmt.Sprintf("%s%s", os.Getenv("GRAPHQL_ENDPOINT"),"/graphql"), "application/json", bytes.NewBuffer(requestBody))
 	
 	if err != nil {
 		log.Fatalln(err)
