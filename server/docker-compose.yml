@@ -25,11 +25,13 @@ services:
   nginx:
     build:
       context: ./nginx
+      dockerfile: ./purge-enabled/Dockerfile
     environment:
-      - BFF_ENDPOINT=http://bff:8000
+      # TODO inject properly via env
+      - BFF_ENDPOINT=http://bff:8000 
     ports:
       - "8080:8000"
-    stdin_open: true
-    tty: true
+    # stdin_open: true
+    # tty: true
 
 
