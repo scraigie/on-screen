@@ -24,9 +24,15 @@ func Routes() *chi.Mux {
 
 	router.Route(config.V1_BASE, func(r chi.Router) {
 		r.Mount(config.MOVIES_BASE, movies.Routes())
-		r.Mount("/mock", mockdata.Routes())
 		r.Mount("/configuration", config.Routes())
 	})
+
+	//mock data for dev
+	router.Route("/3", func(r chi.Router) {
+		router.Mount("/movie", mockdata.MovieRoutes())
+		router.Mount("/genre", mockdata.GenreRoutes())
+	})
+
 
 	return router
 }

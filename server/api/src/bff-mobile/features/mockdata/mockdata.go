@@ -7,16 +7,17 @@ import (
 	"github.com/go-chi/render"
 )
 
-func Routes() *chi.Mux {
+func MovieRoutes() *chi.Mux {
 	router := chi.NewRouter()
-	router.Route("/movies", func(r chi.Router) {
-		r.Get("/", getMovies)
-		r.Get("/{id}", getMovieDetail)
-		r.Get("/{id}/cast", getMovieCast)
-	})
-	router.Get("/person/{id}", getPerson)
-	router.Get("/person/{id}/movies", getPersonCredits)
-	router.Get("/genres", getMovieGenres)
+	router.Get("/popular", getMovies)
+	router.Get("/{id}", getMovieDetail)
+	router.Get("/{id}/credits", getMovieCast)
+	return router
+}
+
+func GenreRoutes() *chi.Mux {
+	router := chi.NewRouter()
+	router.Get("/movie/list", getMovieGenres)
 	return router
 }
 

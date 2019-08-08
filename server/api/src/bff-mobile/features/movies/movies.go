@@ -17,6 +17,7 @@ type Movie struct {
 	Genres interface{} `json:"genres"`
 	Rating float32 `json:"rating"`
 	Id int `json:"id"`
+	PosterUrl string `json:"poster_path"`
 }
 
 func getMovies(w http.ResponseWriter, r *http.Request) {
@@ -27,10 +28,13 @@ func getMovies(w http.ResponseWriter, r *http.Request) {
 		} `json:"data"`
 	}
 
+	var baseImageUrl = graphql_client.GetBaseImageUrl()
+
 	graphql_client.Query(MoviesQuery, &resp)
 	
-	for i, item := range resp.Data.Movies {
-		addMovieRouteLink(&resp.Data.Movies[i],strconv.Itoa(item.Id))
+	for i, movie := range resp.Data.Movies { //TODO do with map function
+		addMovieRouteLink(&resp.Data.Movies[i],strconv.Itoa(movie.Id))
+		resp.Data.Movies[i].PosterUrl = fmt.Sprintf("%s%s", baseImageUrl, movie.PosterUrl)
 	}
 
 	render.JSON(w, r, resp.Data)

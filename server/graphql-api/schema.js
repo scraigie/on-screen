@@ -9,6 +9,7 @@ const typeDefs = `
     title: String
     rating: Float
     genres: [Genre]
+    poster_path: String
     cast(maxItems: Int): [Cast]
     crew(department: String): [Crew]
   }

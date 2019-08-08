@@ -5,7 +5,8 @@ query {
 	movies {
 	  title
 	  rating
-	  id
+		id
+		poster_path
 	  genres {
 			name
 	  }
