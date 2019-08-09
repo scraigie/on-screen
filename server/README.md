@@ -9,11 +9,8 @@ Below the bff is a GraphQL layer.  I opted to not expose this directly to the fr
 
 
 # Build & Run
-#### bff
-`docker build -t bff . && docker run -itd -p 8080:8080 bff`
-
-#### nginx
-`docker build -t nginx-cache . && docker run -itd -p 8081:80 --mount type=bind,source="$(pwd)"/logs,target=/var/log/nginx nginx-cache`
+`docker-compose build`
+`docker-compose up [-d]`
 
 
 # Decision Log

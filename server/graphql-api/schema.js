@@ -9,7 +9,7 @@ const typeDefs = `
     title: String
     rating: Float
     genres: [Genre]
-    poster_path: String
+    poster_image_url: String
     cast(maxItems: Int): [Cast]
     crew(department: String): [Crew]
   }
@@ -31,14 +31,14 @@ const typeDefs = `
       character: String
       personId: Int!
       name: String
-      profile_image: String
+      profile_image_url: String
   }
 
   type Crew {
       job: String
       personId: Int!
       name: String
-      profile_image: String
+      profile_image_url: String
   }
 
   type Query {
@@ -73,12 +73,10 @@ const resolvers = {
   
   Cast: {
     personId: cast => cast.id,
-    profile_image: cast => cast.profile_path
   },
 
   Crew: {
     personId: crew => crew.id,
-    profile_image: cast => cast.profile_path
   },
 
   Person: {

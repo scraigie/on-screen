@@ -15,7 +15,7 @@ type Config struct {
 }
 
 func GetBaseImageUrl() string {
-	endpoint := fmt.Sprintf("%s%s", os.Getenv("CONFIGURATION_ENDPOINT"), "/v1/api/configuration")
+	endpoint := fmt.Sprintf("%s", os.Getenv("CONFIGURATION_ENDPOINT"))
 	fmt.Println(endpoint)
 	resp, err := http.Get(endpoint)
 	

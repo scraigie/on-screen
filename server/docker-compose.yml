@@ -7,9 +7,8 @@ services:
     build:
       context: ./api/src/bff-mobile
     environment:
-      - GRAPHQL_ENDPOINT=http://graphql-api:4000
-      - CONFIGURATION_ENDPOINT=$BFF_ENDPOINT
-
+      - GRAPHQL_ENDPOINT
+      - CONFIGURATION_ENDPOINT
     ports:
       - "8081:8000"
     stdin_open: true
@@ -19,6 +18,7 @@ services:
       context: ./graphql-api
     environment:
       - MOVIE_DB_ENDPOINT
+      - CONFIGURATION_ENDPOINT
       # =http://bff:8000
       - API_KEY
       # =placeholder
