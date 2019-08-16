@@ -6,8 +6,8 @@ import io.reactivex.ObservableTransformer
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
-import uk.co.scraigie.onscreen.core.framework.behaviors.IPresenter
-import uk.co.scraigie.onscreen.core.framework.behaviors.IView
+import uk.co.scraigie.onscreen.core.behaviors.IPresenter
+import uk.co.scraigie.onscreen.core.behaviors.IView
 
 interface MviIntent
 
@@ -37,14 +37,16 @@ class ActionsProcessor<A: MviAction, R: MviResult>(val processorsProvider: (Obse
     }
 }
 
-interface MviPresenter<V : MviView<I,S>, S: MviState, I: MviIntent, A: MviAction, R: MviResult> : IPresenter<V> {
+interface MviPresenter<V : MviView<I, S>, S: MviState, I: MviIntent, A: MviAction, R: MviResult> :
+    IPresenter<V> {
     val initialState: S
-    val reducer: MviReducer<S,R>
+    val reducer: MviReducer<S, R>
     val actionsProcessor: ActionsProcessor<A, R>
     val intentActionResolver: IntentActionResolver<I, A>
 }
 
-abstract class BasePresenter<V: MviView<I,S>, S: MviState, I: MviIntent, A: MviAction, R: MviResult> : MviPresenter<V, S, I, A, R> {
+abstract class BasePresenter<V: MviView<I, S>, S: MviState, I: MviIntent, A: MviAction, R: MviResult> :
+    MviPresenter<V, S, I, A, R> {
     private var disposables = CompositeDisposable()
 
     private fun <T> Observable<T>.subscribeUntilDetached(onSuccess: (T) -> Unit, onError: (Throwable) -> Unit) {
@@ -85,7 +87,8 @@ abstract class BasePresenter<V: MviView<I,S>, S: MviState, I: MviIntent, A: MviA
     }
 }
 
-interface MviView<I : MviIntent, in S: MviState> : IView {
+interface MviView<I : MviIntent, in S: MviState> :
+    IView {
     val intentObservable: Observable<I>
     fun render(state: S)
 }

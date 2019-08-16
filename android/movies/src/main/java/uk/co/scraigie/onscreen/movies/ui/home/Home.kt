@@ -19,8 +19,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.home_item_cropped.view.*
 import kotlinx.android.synthetic.main.view_carousel.view.*
 import org.koin.android.ext.android.inject
-import uk.co.scraigie.onscreen.core.framework.*
-import uk.co.scraigie.onscreen.core.framework.behaviors.PresenterBehavior
+import uk.co.scraigie.onscreen.core.behaviors.PresenterBehavior
 import uk.co.scraigie.onscreen.core_android.behavior.BehaviorFragment
 import uk.co.scraigie.onscreen.movies.R
 import uk.co.scraigie.onscreen.movies.data.dtos.MovieDto

@@ -2,7 +2,7 @@ package uk.co.scraigie.onscreen.di
 
 import org.koin.dsl.module
 import uk.co.scraigie.onscreen.BuildConfig
-import uk.co.scraigie.onscreen.core.framework.contracts.data.IApiFactory
+import uk.co.scraigie.onscreen.core.data.IApiFactory
 import uk.co.scraigie.onscreen.data.ApiFactory
 import uk.co.scraigie.onscreen.movies.di.moviesModule
 

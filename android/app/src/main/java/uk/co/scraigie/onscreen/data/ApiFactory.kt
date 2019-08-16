@@ -7,7 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import uk.co.scraigie.onscreen.core.framework.contracts.data.IApiFactory
+import uk.co.scraigie.onscreen.core.data.IApiFactory
 import java.io.IOException
 import kotlin.reflect.KClass
 

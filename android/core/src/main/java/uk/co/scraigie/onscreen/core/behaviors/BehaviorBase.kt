@@ -1,4 +1,4 @@
-package uk.co.scraigie.onscreen.core.framework.behaviors
+package uk.co.scraigie.onscreen.core.behaviors
 
 interface IFragmentLifecycleBehavior {
     fun onStart()

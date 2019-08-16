@@ -1,7 +1,7 @@
 package uk.co.scraigie.onscreen.core_android.behavior
 
 import androidx.fragment.app.Fragment
-import uk.co.scraigie.onscreen.core.framework.behaviors.IFragmentLifecycleBehavior
+import uk.co.scraigie.onscreen.core.behaviors.IFragmentLifecycleBehavior
 
 abstract class BehaviorFragment: Fragment() {
 

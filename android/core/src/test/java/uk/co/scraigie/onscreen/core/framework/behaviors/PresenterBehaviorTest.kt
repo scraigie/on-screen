@@ -4,6 +4,9 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import uk.co.scraigie.onscreen.core.behaviors.IPresenter
+import uk.co.scraigie.onscreen.core.behaviors.IView
+import uk.co.scraigie.onscreen.core.behaviors.PresenterBehavior
 
 internal class PresenterBehaviorTest {
 

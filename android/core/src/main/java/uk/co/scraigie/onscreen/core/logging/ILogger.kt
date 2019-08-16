@@ -1,4 +1,4 @@
-package uk.co.scraigie.onscreen.core.framework.contracts.logging
+package uk.co.scraigie.onscreen.core.logging
 
 interface ILoggerFactory {
     fun create(tag: String): ILogger

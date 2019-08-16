@@ -1,4 +1,4 @@
-package uk.co.scraigie.onscreen.core.framework.behaviors
+package uk.co.scraigie.onscreen.core.behaviors
 
 import java.lang.ref.WeakReference
 

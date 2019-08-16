@@ -1,4 +1,4 @@
-package uk.co.scraigie.onscreen.core.framework.contracts.data
+package uk.co.scraigie.onscreen.core.data
 
 import kotlin.reflect.KClass
 

@@ -1,7 +1,7 @@
 package uk.co.scraigie.onscreen.logging
 
-import uk.co.scraigie.onscreen.core.framework.contracts.logging.ILogger
-import uk.co.scraigie.onscreen.core.framework.contracts.logging.ILoggerFactory
+import uk.co.scraigie.onscreen.core.logging.ILogger
+import uk.co.scraigie.onscreen.core.logging.ILoggerFactory
 import kotlin.reflect.KClass
 
 class Logger : ILoggerFactory {
