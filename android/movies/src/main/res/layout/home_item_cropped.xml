@@ -2,8 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="10dp"
@@ -41,7 +42,7 @@
             android:layout_marginTop="6dp"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_favorite_border_white_24dp"
+            app:srcCompat="@drawable/ic_favorite_border_white_24dp"
             app:layout_constraintEnd_toEndOf="@+id/guideline_right"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -82,14 +83,18 @@
             app:layout_constraintTop_toBottomOf="@+id/director" />
 
 
-    <com.google.android.material.chip.ChipGroup
+    <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/genres_chips"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="10dp"
-            app:chipSpacingHorizontal="8dp"
-            app:chipSpacingVertical="8dp"
+            app:flexWrap="wrap_reverse"
+            app:flexDirection="row_reverse"
+            app:dividerDrawable="@drawable/chips_divider"
+            app:showDivider="end|middle"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.5"
             app:layout_constraintBottom_toBottomOf="@+id/content_image"
             app:layout_constraintEnd_toEndOf="@+id/guideline_right"/>
 

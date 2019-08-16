@@ -19,9 +19,7 @@ services:
     environment:
       - MOVIE_DB_ENDPOINT
       - CONFIGURATION_ENDPOINT
-      # =http://bff:8000
       - API_KEY
-      # =placeholder
     ports:
       - "4000:4000"
     stdin_open: true

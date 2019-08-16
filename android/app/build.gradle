@@ -12,7 +12,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "BFF_API", "\"http://localhost:8083/\""
+        buildConfigField "String", "BFF_API", "\"http://10.0.2.2:8080/\""
+        vectorDrawables.useSupportLibrary = true
+
     }
     buildTypes {
         release {

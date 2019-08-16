@@ -53,7 +53,7 @@ internal class MoviesRepositoryTest {
         }
 
         @Test
-        @DisplayName("Returns result from movies api")
+        @DisplayName("Returns result from moviesList api")
         fun returns_movies_api_result() {
 
             whenever(moviesApiMock.moviesHome()).thenReturn(Single.just(MoviesHomeDTO(

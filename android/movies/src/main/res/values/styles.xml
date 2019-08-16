@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <style name="GenreChip" parent="Widget.MaterialComponents.Chip.Choice">
-    <item name="chipBackgroundColor">#999999</item>
+    <item name="chipBackgroundColor">#222222</item>
+    <item name="android:textColor">#FFFFFF</item>
+    <item name="chipMinHeight">24dp</item>
+    <item name="chipCornerRadius">4dp</item>
 </style>
+
 </resources>

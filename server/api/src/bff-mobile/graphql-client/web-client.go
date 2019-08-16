@@ -42,19 +42,20 @@ func GetBaseImageUrl() string {
 	return config.BaseImageUrl
 }
 
-func Query(query string, obj interface{}) {//interface{} {
+func Query(query string, obj interface{}) {
 	requestBody, err := json.Marshal(map[string]string{
 		"query": query,
 	})
 
 	if err != nil {
-		log.Fatalln(err)
+		log.Printf("unable to create json object for query: %s", query)
 	}
 
 	resp, err := http.Post(fmt.Sprintf("%s%s", os.Getenv("GRAPHQL_ENDPOINT"),"/graphql"), "application/json", bytes.NewBuffer(requestBody))
 	
 	if err != nil {
-		log.Fatalln(err)
+		log.Print("unable to query graphQL: ", err)
+		return
 	}
 
 	defer resp.Body.Close()
@@ -62,13 +63,13 @@ func Query(query string, obj interface{}) {//interface{} {
 	body, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 
 	errs := json.Unmarshal(body, &obj)
 
 	if errs != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 }
 

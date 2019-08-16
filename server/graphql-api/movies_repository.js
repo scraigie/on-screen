@@ -26,7 +26,7 @@ function getMovies() {
 
             return movie
         })
-    });
+    })
 }
 
 function getMovieDetail(id) {

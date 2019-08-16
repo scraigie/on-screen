@@ -11,6 +11,7 @@ data class MovieDto(
     val cast: List<CastDto> = emptyList(),
     val crew: List<CrewDto> = emptyList(),
     val genres: List<GenreDto> = emptyList(),
+    @SerializedName("poster_image_url") val posterImageUrl: String = "",
     val link: LinkDto = LinkDto(),
     val rating: Float = -1F
 )
@@ -26,12 +27,12 @@ data class LinkDto(
 
 data class CastDto(
     val name: String = "",
-    @SerializedName("profile_image") val imagePath: String = ""
+    @SerializedName("profile_image_url") val imagePath: String = ""
 )
 
 data class CrewDto(
     val name: String = "",
-    @SerializedName("profile_image") val imagePath: String = "",
+    @SerializedName("profile_image_url") val imagePath: String = "",
     val job: String = ""
 )
 

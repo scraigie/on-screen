@@ -29,10 +29,9 @@ func Routes() *chi.Mux {
 
 	//mock data for dev
 	router.Route("/3", func(r chi.Router) {
-		router.Mount("/movie", mockdata.MovieRoutes())
-		router.Mount("/genre", mockdata.GenreRoutes())
+		r.Mount("/movie", mockdata.MovieRoutes())
+		r.Mount("/genre", mockdata.GenreRoutes())
 	})
-
 
 	return router
 }
