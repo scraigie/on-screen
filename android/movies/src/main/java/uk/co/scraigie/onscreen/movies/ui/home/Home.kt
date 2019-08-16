@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.home_item_cropped.view.*
 import kotlinx.android.synthetic.main.view_carousel.view.*
 import org.koin.android.ext.android.inject
 import uk.co.scraigie.onscreen.core.behaviors.PresenterBehavior
+import uk.co.scraigie.onscreen.core.framework.*
 import uk.co.scraigie.onscreen.core_android.behavior.BehaviorFragment
 import uk.co.scraigie.onscreen.movies.R
 import uk.co.scraigie.onscreen.movies.data.dtos.MovieDto
@@ -138,7 +139,10 @@ class MoviesHomeAdapter: RecyclerView.Adapter<MoviesViewHolder<*>>() {
     }
 
     private fun MoviesViewHolder.CarouselViewHolder.setLayoutStateInItem() {
-        (moviesList[adapterPosition] as MoviesAdapterItem.Carousel).layoutManagerState = itemView.carousel.layoutManager?.onSaveInstanceState()
+        if(adapterPosition in 0 until moviesList.size) {
+            (moviesList[adapterPosition] as MoviesAdapterItem.Carousel).layoutManagerState =
+                itemView.carousel.layoutManager?.onSaveInstanceState()
+        }
     }
 
     override fun getItemCount(): Int {
