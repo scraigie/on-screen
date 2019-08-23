@@ -70,10 +70,11 @@ abstract class BasePresenter<V: MviView<I, S>, S: MviState, I: MviIntent, A: Mvi
             .compose(intentActionResolver)
             .compose(actionsProcessor)
             .scan(initialState, reducer)
+            .skip(1) // Don't bind initialState to view on each attach.  Should be triggered by an InitialIntent
             .distinctUntilChanged()
-            .subscribeUntilDetached {
-                view.render(it)
-            }
+        .subscribeUntilDetached {
+            view.render(it)
+        }
     }
 
     protected inline fun <reified AR: A> Observable<A>.addProcessor(processor: Processor): Observable<R> {

@@ -25,8 +25,9 @@ dependencies {
 
     implementation project(path: ':core')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
+    implementation "androidx.recyclerview:recyclerview:$x_recyclerview_version"
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
+
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

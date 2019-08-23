@@ -15,6 +15,7 @@ import com.google.android.material.chip.Chip
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.home_item_cropped.view.*
 import kotlinx.android.synthetic.main.view_carousel.view.*
@@ -22,9 +23,16 @@ import org.koin.android.ext.android.inject
 import uk.co.scraigie.onscreen.core.behaviors.PresenterBehavior
 import uk.co.scraigie.onscreen.core.framework.*
 import uk.co.scraigie.onscreen.core_android.behavior.BehaviorFragment
+import uk.co.scraigie.onscreen.core_android.lists.BaseAdapter
+import uk.co.scraigie.onscreen.core_android.lists.BaseViewHolder
+import uk.co.scraigie.onscreen.core_android.lists.ListItemContent
 import uk.co.scraigie.onscreen.movies.R
 import uk.co.scraigie.onscreen.movies.data.dtos.MovieDto
 import uk.co.scraigie.onscreen.movies.domain.MoviesInteractor
+import uk.co.scraigie.onscreen.movies.ui.home.MoviesAdapterItem.Companion.CAROUSEL
+import uk.co.scraigie.onscreen.movies.ui.home.MoviesAdapterItem.Companion.SINGLE
+import uk.co.scraigie.onscreen.movies.ui.home.MoviesViewHolder.CarouselViewHolder
+import uk.co.scraigie.onscreen.movies.ui.home.MoviesViewHolder.MovieItemViewHolder
 import uk.co.scraigie.onscreen.movies.ui.load
 
 interface MoviesHomeView : MviView<MoviesHomeIntents, MoviesHomeState>
@@ -34,20 +42,22 @@ class MoviesHomeFragment: BehaviorFragment(), MoviesHomeView {
     private val presenter: MoviesHomePresenter by inject()
     private val moviesHomeAdapter = MoviesHomeAdapter()
     private val moviesHomeLayoutManager by lazy { LinearLayoutManager(activity, RecyclerView.VERTICAL, false) }
+    private val intentSubject = PublishSubject.create<MoviesHomeIntents>()
 
     init {
         addBehavior(PresenterBehavior(this) { presenter })
     }
 
-    override val intentObservable: Observable<MoviesHomeIntents>
-        get() = Observable.just(MoviesHomeIntents.InitialIntent)
+    override val intentObservable: Observable<MoviesHomeIntents> by lazy {
+        intentSubject.hide()
+    }
 
     override fun render(state: MoviesHomeState) {
         loader?.apply {
-            if(state.loading) show() else hide()
+            if (state.loading) show() else hide()
         }
         moviesHomeAdapter.apply {
-            setData(state.moviesList)
+            items = state.moviesList
             notifyDataSetChanged()
         }
     }
@@ -77,112 +87,74 @@ class MoviesHomeFragment: BehaviorFragment(), MoviesHomeView {
         super.onViewStateRestored(savedInstanceState)
     }
 
+    override fun onResume() {
+        if(moviesHomeAdapter.itemCount == 0) {
+            intentSubject.onNext(MoviesHomeIntents.InitialIntent)
+        }
+        super.onResume()
+    }
+
     companion object {
         const val LAYOUT_MANAGER_STATE = "LAYOUT_MANAGER_STATE"
     }
 }
 
-class CarouselAdapter: RecyclerView.Adapter<CarouselAdapter.CarouselItemViewHolder>() {
+class CarouselAdapter: BaseAdapter<CarouselAdapter.CarouselItem, CarouselAdapter.CarouselItemViewHolder>(){
 
-    var dataItems = listOf<CarouselItem>()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselItemViewHolder = CarouselItemViewHolder(parent)
-
-    override fun getItemCount(): Int = dataItems.size
-
-    override fun onBindViewHolder(holder: CarouselItemViewHolder, position: Int) = holder.onBind(this.dataItems[position])
-
-    fun setData(items: List<CarouselItem>) {
-        this.dataItems = items
-        notifyDataSetChanged()
-    }
+    override val viewHoldersMap: Map<Int, (ViewGroup) -> BaseViewHolder<out CarouselItem>>
+        get() = mapOf(
+            CAROUSEL_ITEM to ::CarouselItemViewHolder
+        )
 
     inner class CarouselItemViewHolder(parent: ViewGroup)
-        : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.home_item_full, parent, false)) {
-        fun onBind(item: CarouselItem) {
+        : BaseViewHolder<CarouselItem>(parent, R.layout.home_item_full) {
+        override fun bind(item: CarouselItem) {
             itemView.apply {
                 content_image.load(item.imageUrl)
             }
         }
     }
 
+    companion object {
+        const val CAROUSEL_ITEM = 0
+    }
+
     data class CarouselItem(
-        val imageUrl: String)
+        val imageUrl: String) : ListItemContent(CAROUSEL_ITEM)
 }
 
-sealed class MoviesAdapterItem(val type: Int) {
-    data class Single(val movie: MovieDto) : MoviesAdapterItem(MoviesHomeAdapter.SINGLE)
+sealed class MoviesAdapterItem(type: Int): ListItemContent(type) {
+    data class Single(val movie: MovieDto) : MoviesAdapterItem(SINGLE)
     data class Carousel(val items: List<MovieDto>,
-                        var layoutManagerState: Parcelable? = null) : MoviesAdapterItem(MoviesHomeAdapter.CAROUSEL)
-}
-
-class MoviesHomeAdapter: RecyclerView.Adapter<MoviesViewHolder<*>>() {
-
-    private var moviesList: List<MoviesAdapterItem> = emptyList()
-
-    override fun getItemViewType(position: Int): Int =
-        moviesList[position].type
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder<*> {
-        return when(viewType) {
-            CAROUSEL -> MoviesViewHolder.CarouselViewHolder(parent)
-            SINGLE -> MoviesViewHolder.MovieItemViewHolder(parent)
-            else -> throw NoSuchElementException("MoviesHomeAdapter cannot resolve viewType: $viewType")
-        }
-    }
-
-    override fun onViewRecycled(holder: MoviesViewHolder<*>) {
-        when(holder){
-            is MoviesViewHolder.CarouselViewHolder -> holder.setLayoutStateInItem()
-        }
-        super.onViewRecycled(holder)
-    }
-
-    private fun MoviesViewHolder.CarouselViewHolder.setLayoutStateInItem() {
-        if(adapterPosition in 0 until moviesList.size) {
-            (moviesList[adapterPosition] as MoviesAdapterItem.Carousel).layoutManagerState =
-                itemView.carousel.layoutManager?.onSaveInstanceState()
-        }
-    }
-
-    override fun getItemCount(): Int {
-        return moviesList.size
-    }
-
-    fun setData(moviesList: List<MoviesAdapterItem>) {
-        this.moviesList = moviesList
-    }
-
-    override fun onBindViewHolder(holder: MoviesViewHolder<*>, position: Int) {
-        when(holder) {
-            is MoviesViewHolder.MovieItemViewHolder -> holder.onBind((moviesList[position] as MoviesAdapterItem.Single))
-            is MoviesViewHolder.CarouselViewHolder -> holder.onBind((moviesList[position] as MoviesAdapterItem.Carousel))
-        }
-    }
-
+                        var layoutManagerState: Parcelable? = null) : MoviesAdapterItem(CAROUSEL)
     companion object {
         const val CAROUSEL = 0
         const val SINGLE = 1
     }
 }
 
-sealed class MoviesViewHolder<T : MoviesAdapterItem>(parent: ViewGroup, @LayoutRes layoutId: Int) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false)) {
+class MoviesHomeAdapter: BaseAdapter<MoviesAdapterItem, MoviesViewHolder<MoviesAdapterItem>>() {
+    override val viewHoldersMap = mapOf(
+            SINGLE to ::MovieItemViewHolder,
+            CAROUSEL to ::CarouselViewHolder
+        )
+}
 
-    abstract fun onBind(item: T)
+sealed class MoviesViewHolder<T : MoviesAdapterItem>(parent: ViewGroup, @LayoutRes layoutId: Int) : BaseViewHolder<T>(parent, layoutId) {
 
     class MovieItemViewHolder(parent: ViewGroup) : MoviesViewHolder<MoviesAdapterItem.Single>(parent, R.layout.home_item_cropped) {
 
-        override fun  onBind(item: MoviesAdapterItem.Single) {
+        override fun bind(item: MoviesAdapterItem.Single) {
             val movie = item.movie
             itemView.apply {
                 title.text = movie.title
                 director.text = movie.crew.firstOrNull { it.job == "Director" }?.name ?: "Unknown"
                 cast.text = movie.cast.map { it.name }.joinToString(", ")
                 rating.text = movie.rating.toString()
+                genres_chips.removeAllViews()
                 content_image.load(movie.posterImageUrl) { bitmap ->
-                    val palette = Palette.from(bitmap).generate()
+                    val palette = Palette.from(bitmap).generate() // cache palette necessary?
                     genres_chips.apply {
-                        removeAllViews()
                         movie.genres.map { it.name }.forEach { chipText ->
                             addView((LayoutInflater.from(context).inflate(
                                 R.layout.view_text_chip, genres_chips, false) as Chip).apply {
@@ -205,9 +177,16 @@ sealed class MoviesViewHolder<T : MoviesAdapterItem>(parent: ViewGroup, @LayoutR
             itemView.carousel.adapter = adapter
         }
 
-        override fun onBind(item: MoviesAdapterItem.Carousel) {
-            adapter.setData(item.items.map { CarouselAdapter.CarouselItem(imageUrl = it.posterImageUrl) })
+        override fun bind(item: MoviesAdapterItem.Carousel) {
+            adapter.items = item.items.map { CarouselAdapter.CarouselItem(imageUrl = it.posterImageUrl) }
             itemView.carousel.layoutManager?.onRestoreInstanceState(item.layoutManagerState)
+        }
+
+        override fun onViewRecycled(items: List<*>) {
+            if(adapterPosition in 0 until items.size) {
+                (items[adapterPosition] as MoviesAdapterItem.Carousel).layoutManagerState =
+                    itemView.carousel.layoutManager?.onSaveInstanceState()
+            }
         }
     }
 }
@@ -242,7 +221,7 @@ class MoviesHomePresenter constructor(private val moviesInteractor: MoviesIntera
 
     private val loadHomeProcessor = Processor {
         it.switchMap { moviesInteractor.getHomeContent()
-            .subscribeOn(Schedulers.io()) }
+            .subscribeOn(Schedulers.io())
             .map {
                 mutableListOf<MoviesAdapterItem>(
                     MoviesAdapterItem.Carousel(items = it.movies)
@@ -257,7 +236,9 @@ class MoviesHomePresenter constructor(private val moviesInteractor: MoviesIntera
                 }
             }
             .map<MoviesHomeResult> { MoviesHomeResult.LoadHomeResult(it) }
+        }
             .observeOn(AndroidSchedulers.mainThread())
+
     }
 }
 
@@ -275,8 +256,6 @@ sealed class MoviesHomeResult: MviResult {
         val moviesList: List<MoviesAdapterItem>
     ) : MoviesHomeResult()
 }
-
-
 
 data class MoviesHomeState(
     val loading: Boolean,

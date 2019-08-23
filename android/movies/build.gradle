@@ -33,7 +33,7 @@ dependencies {
     implementation project(path: ':core')
     implementation project(path: ':core_android')
 
-    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation "androidx.recyclerview:recyclerview:$x_recyclerview_version"
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
