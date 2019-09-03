@@ -12,12 +12,12 @@ const http = axios.create({
   })})
 });
 
-function get(url) {
-  return http.get(url).then(res => res.data );
+function get(url, params = {}) {
+  return http.get(url, { params: params}).then(res => res.data );
 }
 
-function concurrentGet(...urls) {
-  return axios.all(urls.map(url => get(url)))
+function concurrentGet(...urlParamPairs) {
+  return axios.all(urlParamPairs.map(pair => get(pair.url, pair.params)))
 }
 
 module.exports = {

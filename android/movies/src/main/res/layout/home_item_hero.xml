@@ -26,13 +26,31 @@
 
     <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/content_image"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="200dp"
             android:adjustViewBounds="true"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/title"/>
+            tools:layout_width="200dp"/>
+
+    <View
+            android:id="@+id/palette_transition_bg"
+            android:layout_width="40dp"
+            android:layout_height="0dp"
+            android:background="@drawable/hero_side_panel"
+            app:layout_constraintEnd_toEndOf="@id/content_image"
+            app:layout_constraintTop_toTopOf="@+id/content_image"
+            app:layout_constraintBottom_toBottomOf="@+id/content_image"/>
+
+    <View
+            android:id="@+id/palette_bg"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/black"
+            app:layout_constraintStart_toEndOf="@+id/palette_transition_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/content_image"
+            app:layout_constraintBottom_toBottomOf="@+id/content_image"/>
 
     <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/favourite"

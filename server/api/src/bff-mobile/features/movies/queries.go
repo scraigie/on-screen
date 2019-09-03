@@ -1,5 +1,31 @@
 package movies
-
+const MoviesHomePageQuery = `
+query {
+  page(id: "MOVIES_HOME") {
+    title
+    type
+    movies {
+      title
+      rating
+      id
+      poster_image_url
+      genres {
+        name
+      }
+      cast(maxItems: 3) {
+        name
+        profile_image_url
+        character
+      }
+      crew(department: "Directing") {
+        name
+        profile_image_url
+        job
+      }
+    }
+  }
+}
+`
 const MoviesQuery = `
 query {
 	movies {
@@ -20,7 +46,7 @@ query {
 			job
 	  }
 	}
-  }
+}
 `
 
 const MovieDetailQuery = `
@@ -44,5 +70,5 @@ query {
 			job
 	  }
 	}
-  }
+}
 `

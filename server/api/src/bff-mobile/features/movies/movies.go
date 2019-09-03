@@ -9,6 +9,12 @@ import (
 	"fmt"
 )
 
+type Collection struct {
+	Title string `json:"title"`
+	Type string `json:"type"`
+	Movies []Movie `json:"movies"`
+}
+
 type Movie struct {
 	Name string `json:"title"`
 	Link Link `json:"link"`
@@ -24,26 +30,29 @@ func getMovies(w http.ResponseWriter, r *http.Request) {
 
 	var resp struct {
 		Data struct {
-			Movies []Movie `json:"movies"`
+			Page []Collection `json:"page"`
 		} `json:"data"`
 		Errors interface{} `json:"errors"`
 	}
 
-	graphql_client.Query(MoviesQuery, &resp)
-	
-	// if(&resp.Errors != nil) {
-	// 	http.Error(w, http.StatusText(500), 500)
-	// 	return
-	// }
+	graphql_client.Query(MoviesHomePageQuery, &resp)
 
-	Map(&resp.Data.Movies, func(movie *Movie) {
-		(*movie).Link = MoviesRoutes.DETAIL.GetLink(strconv.Itoa((*movie).Id))
+	MapCollection(&resp.Data.Page, func(collection *Collection) {
+		MapMovie(&collection.Movies, func(movie *Movie) {
+			(*movie).Link = MoviesRoutes.DETAIL.GetLink(strconv.Itoa((*movie).Id))
+		})
 	})
-
-	render.JSON(w, r, resp.Data)
+	
+	render.JSON(w, r, resp.Data.Page)
 }
 
-func Map(arr *[]Movie, f func(*Movie)) {
+func MapCollection(arr *[]Collection,f func(collection *Collection)) {
+    for i, _ := range *arr {
+		f(&(*arr)[i])
+    }
+}
+
+func MapMovie(arr *[]Movie, f func(*Movie)) {
     for i, _ := range *arr {
 		f(&(*arr)[i])
     }
@@ -65,11 +74,6 @@ func getMovieDetail(w http.ResponseWriter, r *http.Request) {
 
 	query := fmt.Sprintf(MovieDetailQuery, movieId)
 	graphql_client.Query(query, &resp)
-	
-	// if(&resp.Errors != nil) {
-	// 	http.Error(w, http.StatusText(500), 500)
-	// 	return
-	// }
 
 	addMovieRouteLink(&resp.Data.MovieObj, movieId)
 

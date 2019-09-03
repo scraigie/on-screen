@@ -2,8 +2,16 @@ const { filter, take, isNil } = require('lodash');
 const { makeExecutableSchema } = require('graphql-tools');
 
 const moviesRepo = require('./movies_repository.js')
+const pagesRepo = require('./pages_repository.js')
 
 const typeDefs = `
+
+  type Collection {
+    title: String
+    type: String
+    movies: [Movie]
+  }
+
   type Movie {
     id: Int!
     title: String
@@ -42,6 +50,7 @@ const typeDefs = `
   }
 
   type Query {
+    page(id: String!): [Collection]
     movies: [Movie]
     movie(id: Int!): Movie
     people: [Person]
@@ -55,6 +64,7 @@ const people = [
 
 const resolvers = {
   Query: {
+    page: ( _, { id }) => pagesRepo.getPage(id),
     movies: () => moviesRepo.getMovies(),
     movie: ( _ ,{ id: movieId }) => moviesRepo.getMovieDetail(movieId),
     people: () => people

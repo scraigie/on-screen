@@ -7,8 +7,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
@@ -20,7 +18,7 @@ fun ImageView.load(url: String, onBitmapReady: (Bitmap) -> Unit = {}) {
     val requestOptions = RequestOptions()
         .placeholder(AppCompatResources.getDrawable(this.context, R.drawable.ic_placeholder_24dp))
         .diskCacheStrategy(DiskCacheStrategy.ALL)
-        .transform(CenterCrop(), RoundedCorners(20))
+//        .transform(CenterCrop(), RoundedCorners(20))
 
     Glide.with(this)
         .asBitmap()

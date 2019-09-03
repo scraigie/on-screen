@@ -17,7 +17,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.home_item_cropped.view.*
+import kotlinx.android.synthetic.main.home_item_cropped.view.cast
+import kotlinx.android.synthetic.main.home_item_cropped.view.content_image
+import kotlinx.android.synthetic.main.home_item_cropped.view.director
+import kotlinx.android.synthetic.main.home_item_cropped.view.genres_chips
+import kotlinx.android.synthetic.main.home_item_cropped.view.rating
+import kotlinx.android.synthetic.main.home_item_cropped.view.title
+import kotlinx.android.synthetic.main.home_item_hero.view.*
 import kotlinx.android.synthetic.main.view_carousel.view.*
 import org.koin.android.ext.android.inject
 import uk.co.scraigie.onscreen.core.behaviors.PresenterBehavior
@@ -30,9 +36,9 @@ import uk.co.scraigie.onscreen.movies.R
 import uk.co.scraigie.onscreen.movies.data.dtos.MovieDto
 import uk.co.scraigie.onscreen.movies.domain.MoviesInteractor
 import uk.co.scraigie.onscreen.movies.ui.home.MoviesAdapterItem.Companion.CAROUSEL
+import uk.co.scraigie.onscreen.movies.ui.home.MoviesAdapterItem.Companion.HERO
 import uk.co.scraigie.onscreen.movies.ui.home.MoviesAdapterItem.Companion.SINGLE
-import uk.co.scraigie.onscreen.movies.ui.home.MoviesViewHolder.CarouselViewHolder
-import uk.co.scraigie.onscreen.movies.ui.home.MoviesViewHolder.MovieItemViewHolder
+import uk.co.scraigie.onscreen.movies.ui.home.MoviesViewHolder.*
 import uk.co.scraigie.onscreen.movies.ui.load
 
 interface MoviesHomeView : MviView<MoviesHomeIntents, MoviesHomeState>
@@ -127,16 +133,19 @@ sealed class MoviesAdapterItem(type: Int): ListItemContent(type) {
     data class Single(val movie: MovieDto) : MoviesAdapterItem(SINGLE)
     data class Carousel(val items: List<MovieDto>,
                         var layoutManagerState: Parcelable? = null) : MoviesAdapterItem(CAROUSEL)
+    data class Hero(val movie: MovieDto) : MoviesAdapterItem(HERO)
     companion object {
         const val CAROUSEL = 0
         const val SINGLE = 1
+        const val HERO = 2
     }
 }
 
 class MoviesHomeAdapter: BaseAdapter<MoviesAdapterItem, MoviesViewHolder<MoviesAdapterItem>>() {
     override val viewHoldersMap = mapOf(
             SINGLE to ::MovieItemViewHolder,
-            CAROUSEL to ::CarouselViewHolder
+            CAROUSEL to ::CarouselViewHolder,
+            HERO to ::MovieHeroViewHolder
         )
 }
 
@@ -167,6 +176,21 @@ sealed class MoviesViewHolder<T : MoviesAdapterItem>(parent: ViewGroup, @LayoutR
                 }
             }
         }
+    }
+
+    class MovieHeroViewHolder(parent: ViewGroup) : MoviesViewHolder<MoviesAdapterItem.Hero>(parent, R.layout.home_item_hero) {
+        override fun bind(item: MoviesAdapterItem.Hero) {
+            val movie = item.movie
+            itemView.apply {
+                content_image.load(movie.posterImageUrl){ bitmap ->
+                    val palette = Palette.from(bitmap).generate() // cache palette necessary?
+                    listOf(palette_transition_bg, palette_bg).forEach {
+                        it.backgroundTintList = ColorStateList.valueOf(palette.getLightMutedColor(Color.BLACK))
+                    }
+                }
+            }
+        }
+
     }
 
     class CarouselViewHolder(parent: ViewGroup) : MoviesViewHolder<MoviesAdapterItem.Carousel>(parent, R.layout.view_carousel) {
@@ -226,7 +250,7 @@ class MoviesHomePresenter constructor(private val moviesInteractor: MoviesIntera
                 mutableListOf<MoviesAdapterItem>(
                     MoviesAdapterItem.Carousel(items = it.movies)
                 ).apply {
-                    addAll(it.movies.map { MoviesAdapterItem.Single(it) }.take(3))
+                    addAll(it.movies.map { MoviesAdapterItem.Hero(it) }.take(3))
                     add(MoviesAdapterItem.Carousel(items = it.movies))
                     addAll(it.movies.map { MoviesAdapterItem.Single(it) }.drop(3).take(3))
                     add(MoviesAdapterItem.Carousel(items = it.movies))

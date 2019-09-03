@@ -3,16 +3,100 @@ const webClient = require('./web_client.js');
 const url = require('url')
 
 const baseUrl = process.env.MOVIE_DB_ENDPOINT
-const configurationUrl = process.env.CONFIGURATION_ENDPOINT
+const configurationUrl = { url: process.env.CONFIGURATION_ENDPOINT }
 
-function buildUrl(path) {
-    let result = url.resolve(baseUrl, `/3${path}?api_key=${process.env.API_KEY}`)
-    return result
+function buildUrl(path, params = {}) {
+    params.api_key = `${process.env.API_KEY}`
+    return {
+        url: url.resolve(baseUrl, `/3${path}`),
+        params: params
+    }
 }
 
-function getMovies() {
+function getPopular() {
     return webClient.concurrentGet(
         buildUrl(`/movie/popular`),
+        buildUrl(`/genre/movie/list`),
+        configurationUrl
+    )
+    .then( results => { 
+        let [ { results: movies } , { genres }, { image_base_url } ] = results
+        return movies.map( movie => {
+            movie.genres = filter(genres, (genre) => 
+                includes(movie.genre_ids, genre.id )
+            )
+            movie.poster_image_url = `${image_base_url}${movie.poster_path}`
+
+            return movie
+        })
+    })
+}
+
+function getNowPlaying() {
+    const page = 1
+    const language = "en-UK"
+    const region = "GB"
+
+    return webClient.concurrentGet(
+        buildUrl(`/movie/now_playing`, {
+            page,
+            language,
+            region
+        }),
+        buildUrl(`/genre/movie/list`),
+        configurationUrl
+    )
+    .then( results => { 
+        let [ { results: movies } , { genres }, { image_base_url } ] = results
+        return movies.map( movie => {
+            movie.genres = filter(genres, (genre) => 
+                includes(movie.genre_ids, genre.id )
+            )
+            movie.poster_image_url = `${image_base_url}${movie.poster_path}`
+
+            return movie
+        })
+    })
+}
+
+function getTopRated() {
+    const page = 1
+    const language = "en-UK"
+    const region = "GB"
+
+    return webClient.concurrentGet(
+        buildUrl(`/movie/top_rated`, {
+            page,
+            language,
+            region
+        }),
+        buildUrl(`/genre/movie/list`),
+        configurationUrl
+    )
+    .then( results => { 
+        let [ { results: movies } , { genres }, { image_base_url } ] = results
+        return movies.map( movie => {
+            movie.genres = filter(genres, (genre) => 
+                includes(movie.genre_ids, genre.id )
+            )
+            movie.poster_image_url = `${image_base_url}${movie.poster_path}`
+
+            return movie
+        })
+    })
+}
+
+function getUpcoming() {
+    const page = 1
+    const language = "en-UK"
+    const region = "GB"
+
+    return webClient.concurrentGet(
+        buildUrl(`/movie/upcoming`, {
+            page,
+            language,
+            region
+        }),
         buildUrl(`/genre/movie/list`),
         configurationUrl
     )
@@ -64,7 +148,10 @@ function getCredits(id) {
 }
 
 module.exports = {
-    getMovies,
+    getPopular,
+    getNowPlaying,
+    getTopRated,
+    getUpcoming,
     getMovieDetail,
     getGenres,
     getCredits
