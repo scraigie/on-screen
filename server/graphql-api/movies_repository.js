@@ -3,7 +3,7 @@ const webClient = require('./web_client.js');
 const url = require('url')
 
 const baseUrl = process.env.MOVIE_DB_ENDPOINT
-const configurationUrl = { url: process.env.CONFIGURATION_ENDPOINT }
+const configurationRequest = { url: process.env.CONFIGURATION_ENDPOINT }
 
 function buildUrl(path, params = {}) {
     params.api_key = `${process.env.API_KEY}`
@@ -17,7 +17,7 @@ function getPopular() {
     return webClient.concurrentGet(
         buildUrl(`/movie/popular`),
         buildUrl(`/genre/movie/list`),
-        configurationUrl
+        configurationRequest
     )
     .then( results => { 
         let [ { results: movies } , { genres }, { image_base_url } ] = results
@@ -44,7 +44,7 @@ function getNowPlaying() {
             region
         }),
         buildUrl(`/genre/movie/list`),
-        configurationUrl
+        configurationRequest
     )
     .then( results => { 
         let [ { results: movies } , { genres }, { image_base_url } ] = results
@@ -71,7 +71,7 @@ function getTopRated() {
             region
         }),
         buildUrl(`/genre/movie/list`),
-        configurationUrl
+        configurationRequest
     )
     .then( results => { 
         let [ { results: movies } , { genres }, { image_base_url } ] = results
@@ -98,7 +98,7 @@ function getUpcoming() {
             region
         }),
         buildUrl(`/genre/movie/list`),
-        configurationUrl
+        configurationRequest
     )
     .then( results => { 
         let [ { results: movies } , { genres }, { image_base_url } ] = results
@@ -115,7 +115,7 @@ function getUpcoming() {
 
 function getMovieDetail(id) {
     return webClient.concurrentGet(
-        configurationUrl,
+        configurationRequest,
         buildUrl(`/movie/${id}`))
         .then( response => {
             let [ { image_base_url }, movie ] = response
@@ -131,7 +131,7 @@ function getGenres() {
 
 function getCredits(id) {
     return webClient.concurrentGet(
-        configurationUrl,
+        configurationRequest,
         buildUrl(`/movie/${id}/credits`))
         .then(res => { 
             let [ { image_base_url }, credits ] = res

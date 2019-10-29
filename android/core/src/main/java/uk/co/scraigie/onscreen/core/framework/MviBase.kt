@@ -17,36 +17,16 @@ interface MviResult
 
 interface MviState
 
-class MviReducer<S : MviState, R : MviResult>(val reducer: (previousState: S, result: R) -> S) : BiFunction<S, R, S> {
-    override fun apply(previousState: S, result: R): S {
-        return reducer(previousState, result)
-    }
-}
-
-class IntentActionResolver<I : MviIntent, A : MviAction>(val resolver: (I) -> A) : ObservableTransformer<I,A> {
-    override fun apply(upstream: Observable<I>): ObservableSource<A> =
-        upstream.map { resolver(it) }
-
-}
-
-class ActionsProcessor<A: MviAction, R: MviResult>(val processorsProvider: (Observable<A>) -> List<Observable<R>>) : ObservableTransformer<A,R> {
-    override fun apply(upstream: Observable<A>): ObservableSource<R> {
-        return upstream.publish { combined ->
-            Observable.merge(processorsProvider(combined))
-        }
-    }
-}
-
-interface MviPresenter<V : MviView<I, S>, S: MviState, I: MviIntent, A: MviAction, R: MviResult> :
-    IPresenter<V> {
+interface MviPresenter<V : MviView<I,S>, S: MviState, I: MviIntent, A: MviAction, R: MviResult>: IPresenter<V> {
     val initialState: S
-    val reducer: MviReducer<S, R>
-    val actionsProcessor: ActionsProcessor<A, R>
-    val intentActionResolver: IntentActionResolver<I, A>
+    val intentActionResolver: Map<I,A>
 }
 
-abstract class BasePresenter<V: MviView<I, S>, S: MviState, I: MviIntent, A: MviAction, R: MviResult> :
-    MviPresenter<V, S, I, A, R> {
+abstract class BaseMviPresenter<V: MviView<I,S>, S: MviState, I: MviIntent, A: MviAction, R: MviResult> : MviPresenter<V, S, I, A, R> {
+
+    abstract val reducer: MviReducer
+    abstract val actionsProcessor: ActionsProcessor
+
     private var disposables = CompositeDisposable()
 
     private fun <T> Observable<T>.subscribeUntilDetached(onSuccess: (T) -> Unit, onError: (Throwable) -> Unit) {
@@ -67,32 +47,54 @@ abstract class BasePresenter<V: MviView<I, S>, S: MviState, I: MviIntent, A: Mvi
 
     override fun onAttach(view: V) {
         view.intentObservable
-            .compose(intentActionResolver)
+//                .doOnNext { println("mviPresenter - intent = $it") }
+            .map{ intentActionResolver[it] ?: error("Unable to resolve intent to action $it") }
+//                .doOnNext { println("mviPresenter - action = $it") }
             .compose(actionsProcessor)
+//                .doOnNext { println("mviPresenter - result = $it") }
             .scan(initialState, reducer)
-            .skip(1) // Don't bind initialState to view on each attach.  Should be triggered by an InitialIntent
+//                .doOnNext { println("mviPresenter - state = $it") }
             .distinctUntilChanged()
-        .subscribeUntilDetached {
-            view.render(it)
+            .subscribeUntilDetached {
+                view.render(it)
+            }
+    }
+
+    inner class MviReducer(val reducer: (previousState: S, result: R) -> S) : BiFunction<S, R, S> {
+        override fun apply(previousState: S, result: R): S {
+            return reducer(previousState, result)
         }
     }
 
-    protected inline fun <reified AR: A> Observable<A>.addProcessor(processor: Processor): Observable<R> {
-        return ofType(AR::class.java).compose(processor)
+    inner class ActionsProcessor
+        (val processorsProvider: (Observable<A>) -> List<Observable<R>>) : ObservableTransformer<A, R> {
+        override fun apply(upstream: Observable<A>): ObservableSource<R> {
+            return upstream.publish { combined ->
+                Observable.merge(processorsProvider(combined))
+            }
+        }
     }
 
-    protected inner class Processor(val func: (obs: Observable<A>) -> Observable<R>) : ObservableTransformer<A,R> {
-        override fun apply(upstream: Observable<A>): ObservableSource<R> {
-            return func(upstream)
+    protected inline fun <reified AC: A,RC: R> Observable<A>.addProcessor(processor: Processor<AC,RC>): Observable<R> {
+        return ofType(AC::class.java).compose(processor)
+    }
+
+    abstract inner class Processor<AC,RC> : ObservableTransformer<AC, RC>
+
+    inner class RxProcessor<AC: A,RC: R>(val func: (AC) -> Observable<RC>) : Processor<AC,RC>() {
+        override fun apply(upstream: Observable<AC>): ObservableSource<RC> {
+            return upstream.switchMap { func(it) }
+        }
+    }
+
+    inner class SequentialProcessor<AC: A, RC: R>(val func: (AC) -> RC) : Processor<AC,RC>() {
+        override fun apply(upstream: Observable<AC>): ObservableSource<RC> {
+            return upstream.switchMap { Observable.just(func(it)) }
         }
     }
 }
 
-interface MviView<I : MviIntent, in S: MviState> :
-    IView {
+interface MviView<I : MviIntent, in S: MviState>: IView {
     val intentObservable: Observable<I>
     fun render(state: S)
 }
-
-
-

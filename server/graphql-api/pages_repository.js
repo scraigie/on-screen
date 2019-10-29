@@ -10,10 +10,10 @@ function getPage(id) {
 
 function getMoviesPage(){
     return [
-        { title: "Popular", type: "CAROUSEL", movies: moviesRepo.getPopular() },
         { title: "In Cinemas", type: "CAROUSEL", movies: moviesRepo.getNowPlaying() },
-        { title: "Top Rated", type: "CAROUSEL", movies: moviesRepo.getTopRated() },
         { title: "Coming Soon", type: "CAROUSEL", movies: moviesRepo.getUpcoming() },
+        { title: "Trending", type: "CAROUSEL", movies: moviesRepo.getPopular() },
+        { title: "Top Rated", type: "CAROUSEL", movies: moviesRepo.getTopRated() },
     ]
 }
 

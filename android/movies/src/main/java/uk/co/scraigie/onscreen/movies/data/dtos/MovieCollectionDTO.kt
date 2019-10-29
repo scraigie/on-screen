@@ -2,7 +2,9 @@ package uk.co.scraigie.onscreen.movies.data.dtos
 
 import com.google.gson.annotations.SerializedName
 
-data class MoviesHomeDTO(
+data class MovieCollectionDTO(
+    val type: CollectionType,
+    val title: String = "",
     val movies: List<MovieDto> = emptyList()
 )
 
@@ -15,6 +17,10 @@ data class MovieDto(
     val link: LinkDto = LinkDto(),
     val rating: Float = -1F
 )
+
+enum class CollectionType {
+    CAROUSEL
+}
 
 enum class LinkType {
     MOVIE_DETAIL

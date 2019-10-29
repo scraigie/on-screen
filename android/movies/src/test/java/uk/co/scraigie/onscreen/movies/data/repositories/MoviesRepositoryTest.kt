@@ -8,7 +8,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.*
 import uk.co.scraigie.onscreen.movies.data.MoviesApi
 import uk.co.scraigie.onscreen.movies.data.dtos.MovieDto
-import uk.co.scraigie.onscreen.movies.data.dtos.MoviesHomeDTO
+import uk.co.scraigie.onscreen.movies.data.dtos.MovieCollectionDTO
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class MoviesRepositoryTest {
@@ -56,7 +56,7 @@ internal class MoviesRepositoryTest {
         @DisplayName("Returns result from moviesList api")
         fun returns_movies_api_result() {
 
-            whenever(moviesApiMock.moviesHome()).thenReturn(Single.just(MoviesHomeDTO(
+            whenever(moviesApiMock.moviesHome()).thenReturn(Single.just(MovieCollectionDTO(
                 movies = listOf(
                     MovieDto(
                         title = "movieTitle"
@@ -74,7 +74,7 @@ internal class MoviesRepositoryTest {
         @DisplayName("Returns default params to not break missing properties during deserialisation")
         fun returns_default_params(){
 
-            whenever(moviesApiMock.moviesHome()).thenReturn(Single.just(MoviesHomeDTO(
+            whenever(moviesApiMock.moviesHome()).thenReturn(Single.just(MovieCollectionDTO(
                 movies = listOf(
                     MovieDto()
                 )

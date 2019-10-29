@@ -7,4 +7,22 @@
     <item name="chipCornerRadius">4dp</item>
 </style>
 
+    <style name="CarouselTitleTextAppearance">
+        <item name="android:textSize">22sp</item>
+        <item name="android:fontFamily">sans-serif-smallcaps</item>
+        <item name="android:textColor">@color/base_text</item>
+        <item name="android:textAppearance">@style/BaseTextAppearance</item>
+    </style>
+
+    <style name="CarouselItemTitleTextAppearance">
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-smallcaps</item>
+        <item name="android:textColor">@color/base_text</item>
+        <item name="android:textAppearance">@style/BaseTextAppearance</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="BaseTextAppearance">
+        <item name="android:textColor">@color/base_text</item>
+    </style>
 </resources>

@@ -33,6 +33,8 @@ import uk.co.scraigie.onscreen.core_android.lists.BaseAdapter
 import uk.co.scraigie.onscreen.core_android.lists.BaseViewHolder
 import uk.co.scraigie.onscreen.core_android.lists.ListItemContent
 import uk.co.scraigie.onscreen.movies.R
+import uk.co.scraigie.onscreen.movies.data.dtos.CollectionType
+import uk.co.scraigie.onscreen.movies.data.dtos.MovieCollectionDTO
 import uk.co.scraigie.onscreen.movies.data.dtos.MovieDto
 import uk.co.scraigie.onscreen.movies.domain.MoviesInteractor
 import uk.co.scraigie.onscreen.movies.ui.home.MoviesAdapterItem.Companion.CAROUSEL
@@ -116,6 +118,7 @@ class CarouselAdapter: BaseAdapter<CarouselAdapter.CarouselItem, CarouselAdapter
         : BaseViewHolder<CarouselItem>(parent, R.layout.home_item_full) {
         override fun bind(item: CarouselItem) {
             itemView.apply {
+                title.text = item.title
                 content_image.load(item.imageUrl)
             }
         }
@@ -126,18 +129,31 @@ class CarouselAdapter: BaseAdapter<CarouselAdapter.CarouselItem, CarouselAdapter
     }
 
     data class CarouselItem(
+        val title: String,
         val imageUrl: String) : ListItemContent(CAROUSEL_ITEM)
 }
 
 sealed class MoviesAdapterItem(type: Int): ListItemContent(type) {
     data class Single(val movie: MovieDto) : MoviesAdapterItem(SINGLE)
     data class Carousel(val items: List<MovieDto>,
+                        val title: String,
                         var layoutManagerState: Parcelable? = null) : MoviesAdapterItem(CAROUSEL)
     data class Hero(val movie: MovieDto) : MoviesAdapterItem(HERO)
     companion object {
         const val CAROUSEL = 0
         const val SINGLE = 1
         const val HERO = 2
+    }
+
+    object Factory {
+        fun create(collection: MovieCollectionDTO) : MoviesAdapterItem {
+            return when(collection.type){
+                CollectionType.CAROUSEL ->
+                    Carousel(
+                        title = collection.title,
+                        items = collection.movies)
+            }
+        }
     }
 }
 
@@ -202,8 +218,14 @@ sealed class MoviesViewHolder<T : MoviesAdapterItem>(parent: ViewGroup, @LayoutR
         }
 
         override fun bind(item: MoviesAdapterItem.Carousel) {
-            adapter.items = item.items.map { CarouselAdapter.CarouselItem(imageUrl = it.posterImageUrl) }
-            itemView.carousel.layoutManager?.onRestoreInstanceState(item.layoutManagerState)
+            adapter.items = item.items.map { CarouselAdapter.CarouselItem(
+                imageUrl = it.posterImageUrl,
+                title = it.title)
+            }
+            itemView.apply {
+                carousel_title.text = item.title
+                carousel.layoutManager?.onRestoreInstanceState(item.layoutManagerState)
+            }
         }
 
         override fun onViewRecycled(items: List<*>) {
@@ -215,56 +237,45 @@ sealed class MoviesViewHolder<T : MoviesAdapterItem>(parent: ViewGroup, @LayoutR
     }
 }
 
-class MoviesHomePresenter constructor(private val moviesInteractor: MoviesInteractor): BasePresenter<MoviesHomeView, MoviesHomeState, MoviesHomeIntents, MoviesHomeActions, MoviesHomeResult>() {
+class MoviesHomePresenter constructor(private val moviesInteractor: MoviesInteractor): BaseMviPresenter<MoviesHomeView, MoviesHomeState, MoviesHomeIntents, MoviesHomeActions, MoviesHomeResult>() {
 
-    override val intentActionResolver = IntentActionResolver<MoviesHomeIntents, MoviesHomeActions> {
-        when(it)  {
-            is MoviesHomeIntents.InitialIntent -> MoviesHomeActions.LoadHomeAction
-            is MoviesHomeIntents.RefreshIntent -> MoviesHomeActions.LoadHomeAction
-        }
+    override val intentActionResolver: Map<MoviesHomeIntents, MoviesHomeActions>
+        get() = mapOf(
+            MoviesHomeIntents.InitialIntent to MoviesHomeActions.LoadHomeAction,
+            MoviesHomeIntents.RefreshIntent to MoviesHomeActions.LoadHomeAction
+        )
+
+    override val actionsProcessor = ActionsProcessor {
+        listOf(
+            it.addProcessor(loadHomeProcessor)
+        )
     }
-
-    override val actionsProcessor = ActionsProcessor<MoviesHomeActions, MoviesHomeResult> {
-            listOf(
-                it.addProcessor<MoviesHomeActions>(loadHomeProcessor)
-            )
-        }
 
     override val initialState: MoviesHomeState
         get() = MoviesHomeState.INITIAL_STATE
 
-    override val reducer = MviReducer<MoviesHomeState, MoviesHomeResult> {
-            previousState, result -> when(result) {
-                is MoviesHomeResult.LoadHomeResult ->
-                    previousState.copy(
-                        loading = false,
-                        moviesList = result.moviesList
-                    )
-            }
-    }
-
-    private val loadHomeProcessor = Processor {
-        it.switchMap { moviesInteractor.getHomeContent()
-            .subscribeOn(Schedulers.io())
-            .map {
-                mutableListOf<MoviesAdapterItem>(
-                    MoviesAdapterItem.Carousel(items = it.movies)
-                ).apply {
-                    addAll(it.movies.map { MoviesAdapterItem.Hero(it) }.take(3))
-                    add(MoviesAdapterItem.Carousel(items = it.movies))
-                    addAll(it.movies.map { MoviesAdapterItem.Single(it) }.drop(3).take(3))
-                    add(MoviesAdapterItem.Carousel(items = it.movies))
-                    addAll(it.movies.map { MoviesAdapterItem.Single(it) }.drop(6).take(3))
-                    add(MoviesAdapterItem.Carousel(items = it.movies))
-                    addAll(it.movies.map { MoviesAdapterItem.Single(it) }.drop(9).take(3))
-                }
-            }
-            .map<MoviesHomeResult> { MoviesHomeResult.LoadHomeResult(it) }
+    override val reducer = MviReducer { previousState, result ->
+        when (result) {
+            is MoviesHomeResult.LoadHomeResult ->
+                previousState.copy(
+                    loading = false,
+                    moviesList = result.moviesList
+                )
         }
-            .observeOn(AndroidSchedulers.mainThread())
-
     }
+
+    private val loadHomeProcessor =
+        RxProcessor<MoviesHomeActions.LoadHomeAction, MoviesHomeResult.LoadHomeResult> {
+            moviesInteractor.getHomeContent()
+                .subscribeOn(Schedulers.io())
+                .map {
+                    it.map { MoviesAdapterItem.Factory.create(it) }
+                }
+                .map { MoviesHomeResult.LoadHomeResult(it) }
+                .observeOn(AndroidSchedulers.mainThread())
+        }
 }
+
 
 sealed class MoviesHomeIntents : MviIntent {
     object InitialIntent : MoviesHomeIntents()

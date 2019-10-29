@@ -30,35 +30,33 @@ class TvHomeFragment: Fragment(), TvHomeView {
 
 
 
-class TvHomePresenter: BasePresenter<TvHomeView, TvHomeState, TvHomeIntents, TvHomeActions, TvHomeResult>() {
+class TvHomePresenter: BaseMviPresenter<TvHomeView, TvHomeState, TvHomeIntents, TvHomeActions, TvHomeResult>() {
 
-    override val intentActionResolver = IntentActionResolver<TvHomeIntents, TvHomeActions> {
-        when(it)  {
-            is TvHomeIntents.InitialIntent -> TvHomeActions.LoadHomeAction
-            is TvHomeIntents.RefreshIntent -> TvHomeActions.LoadHomeAction
-        }
+    override val intentActionResolver = mapOf(
+            TvHomeIntents.InitialIntent to TvHomeActions.LoadHomeAction,
+            TvHomeIntents.RefreshIntent to TvHomeActions.LoadHomeAction
+    )
+
+    override val actionsProcessor = ActionsProcessor {
+        listOf(
+            it.addProcessor(loadHomeProcessor),
+            it.addProcessor(refreshProcessor)
+        )
     }
-
-    override val actionsProcessor = ActionsProcessor<TvHomeActions, TvHomeResult> {
-            listOf(
-                it.addProcessor<TvHomeActions.LoadHomeAction>(loadHomeProcessor),
-                it.addProcessor<TvHomeActions.RefreshAction>(refreshProcessor)
-            )
-        }
 
     override val initialState: TvHomeState
         get() = TvHomeState()
 
-    override val reducer = MviReducer<TvHomeState, TvHomeResult> {
+    override val reducer = MviReducer {
             previousState, result -> initialState.copy(property = true)
     }
 
-    private val loadHomeProcessor = Processor {
-        it.map { TvHomeResult.LoadHomeResult }
+    private val loadHomeProcessor =SequentialProcessor<TvHomeActions.LoadHomeAction, TvHomeResult.LoadHomeResult> {
+        TvHomeResult.LoadHomeResult
     }
 
-    private val refreshProcessor = Processor {
-        it.map { TvHomeResult.RefreshResult }
+    private val refreshProcessor = SequentialProcessor<TvHomeActions.RefreshAction, TvHomeResult.RefreshResult> {
+        TvHomeResult.RefreshResult
     }
 }
 
