@@ -152,6 +152,10 @@ sealed class MoviesAdapterItem(type: Int): ListItemContent(type) {
                     Carousel(
                         title = collection.title,
                         items = collection.movies)
+                CollectionType.HERO ->
+                    Hero(collection.movies.first())
+                CollectionType.SINGLE ->
+                    Single(collection.movies.first())
             }
         }
     }

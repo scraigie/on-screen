@@ -19,7 +19,9 @@ data class MovieDto(
 )
 
 enum class CollectionType {
-    CAROUSEL
+    CAROUSEL,
+    HERO,
+    SINGLE
 }
 
 enum class LinkType {

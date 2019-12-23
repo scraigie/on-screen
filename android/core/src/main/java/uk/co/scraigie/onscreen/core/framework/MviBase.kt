@@ -47,13 +47,13 @@ abstract class BaseMviPresenter<V: MviView<I,S>, S: MviState, I: MviIntent, A: M
 
     override fun onAttach(view: V) {
         view.intentObservable
-//                .doOnNext { println("mviPresenter - intent = $it") }
+                .doOnNext { println("mviPresenter - intent = $it") }
             .map{ intentActionResolver[it] ?: error("Unable to resolve intent to action $it") }
-//                .doOnNext { println("mviPresenter - action = $it") }
+                .doOnNext { println("mviPresenter - action = $it") }
             .compose(actionsProcessor)
-//                .doOnNext { println("mviPresenter - result = $it") }
+                .doOnNext { println("mviPresenter - result = $it") }
             .scan(initialState, reducer)
-//                .doOnNext { println("mviPresenter - state = $it") }
+                .doOnNext { println("mviPresenter - state = $it") }
             .distinctUntilChanged()
             .subscribeUntilDetached {
                 view.render(it)
