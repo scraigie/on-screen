@@ -17,7 +17,7 @@ func Routes() *chi.Mux {
 	router.Use(
 		render.SetContentType(render.ContentTypeJSON), // Set content-Type headers as application/json
 		middleware.Logger,                             // Log API request calls
-		middleware.DefaultCompress,                    // Compress results, mostly gzipping assets and json
+		// middleware.Compress,                    // Compress results, mostly gzipping assets and json
 		middleware.RedirectSlashes,                    // Redirect slashes to no slash URL versions
 		middleware.Recoverer,                          // Recover from panics without crashing server
 	)
