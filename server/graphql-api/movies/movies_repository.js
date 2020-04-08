@@ -1,22 +1,26 @@
 const { filter, includes, isNil } = require('lodash')
-const webClient = require('./web_client.js');
+const webClient = require('../web_client.js');
 const url = require('url')
 
 const baseUrl = process.env.MOVIE_DB_ENDPOINT
 const configurationRequest = { url: process.env.CONFIGURATION_ENDPOINT }
+const language = "en-UK"
+const region = "GB"
 
 function buildUrl(path, params = {}) {
     params.api_key = `${process.env.API_KEY}`
+    const resolvedUrl = url.resolve(baseUrl, `${path}`)
+    console.log(resolvedUrl)
     return {
-        url: url.resolve(baseUrl, `/3${path}`),
+        url: resolvedUrl,
         params: params
     }
 }
 
 function getPopular() {
     return webClient.concurrentGet(
-        buildUrl(`/movie/popular`),
-        buildUrl(`/genre/movie/list`),
+        buildUrl(`movie/popular`),
+        buildUrl(`genre/movie/list`),
         configurationRequest
     )
     .then( results => { 
@@ -30,20 +34,19 @@ function getPopular() {
             return movie
         })
     })
+    .catch(error => [])
 }
 
 function getNowPlaying() {
     const page = 1
-    const language = "en-UK"
-    const region = "GB"
 
     return webClient.concurrentGet(
-        buildUrl(`/movie/now_playing`, {
+        buildUrl(`movie/now_playing`, {
             page,
             language,
             region
         }),
-        buildUrl(`/genre/movie/list`),
+        buildUrl(`genre/movie/list`),
         configurationRequest
     )
     .then( results => { 
@@ -57,20 +60,19 @@ function getNowPlaying() {
             return movie
         })
     })
+    .catch(error => [])
 }
 
 function getTopRated() {
     const page = 1
-    const language = "en-UK"
-    const region = "GB"
 
     return webClient.concurrentGet(
-        buildUrl(`/movie/top_rated`, {
+        buildUrl(`movie/top_rated`, {
             page,
             language,
             region
         }),
-        buildUrl(`/genre/movie/list`),
+        buildUrl(`genre/movie/list`),
         configurationRequest
     )
     .then( results => { 
@@ -84,20 +86,19 @@ function getTopRated() {
             return movie
         })
     })
+    // .catch(error => [])
 }
 
 function getUpcoming() {
     const page = 1
-    const language = "en-UK"
-    const region = "GB"
 
     return webClient.concurrentGet(
-        buildUrl(`/movie/upcoming`, {
+        buildUrl(`movie/upcoming`, {
             page,
             language,
             region
         }),
-        buildUrl(`/genre/movie/list`),
+        buildUrl(`genre/movie/list`),
         configurationRequest
     )
     .then( results => { 
@@ -111,12 +112,13 @@ function getUpcoming() {
             return movie
         })
     })
+    .catch(error => [])
 }
 
 function getMovieDetail(id) {
     return webClient.concurrentGet(
         configurationRequest,
-        buildUrl(`/movie/${id}`))
+        buildUrl(`movie/${id}`))
         .then( response => {
             let [ { image_base_url }, movie ] = response
             movie.poster_image_url = `${image_base_url}${movie.poster_path}`
@@ -125,14 +127,14 @@ function getMovieDetail(id) {
 }
 
 function getGenres() {
-    return webClient.get(buildUrl(`/genre/movie/list`))
+    return webClient.get(buildUrl(`genre/movie/list`))
     .then(res => res.genres);
 }
 
 function getCredits(id) {
     return webClient.concurrentGet(
         configurationRequest,
-        buildUrl(`/movie/${id}/credits`))
+        buildUrl(`movie/${id}/credits`))
         .then(res => { 
             let [ { image_base_url }, credits ] = res
             credits.cast.map(castItem => {

@@ -1,4 +1,4 @@
-const moviesRepo = require('./movies_repository.js');
+const moviesRepo = require('./movies/movies_repository.js');
 
 function getPage(id) {
     switch(id) {
